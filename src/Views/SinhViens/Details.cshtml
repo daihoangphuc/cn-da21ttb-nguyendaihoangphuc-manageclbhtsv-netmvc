@@ -1,0 +1,82 @@
+﻿@model Manage_CLB_HTSV.Models.SinhVien
+<link rel="stylesheet" href="~/assets/css/student_card.css" />
+<div class="custom-container">
+    <div class="custom-card">
+        <div class="custom-content">
+            <h1 class="custom-title">THẺ THÀNH VIÊN</h1>
+            <div class="custom-info">
+                <p class="custom-name">@Model.HoTen</p>
+                <p class="custom-role">Chức vụ: @Model.ChucVu.TenChucVu</p>
+                <p class="custom-class">Lớp: @Model.LopHoc.MaLop</p>
+                <p class="custom-phone">Số điện thoại: @Model.DienThoai</p>
+                <p class="custom-email">Email: @Model.Email</p>
+            </div>
+        </div>
+        <img src="@(Url.Content("~/assets/img/logo_clb.png"))" class="custom-logo" alt="Logo" />
+        <div class="club-name">
+            <span class="sub-club-name" id="subclubname1" style="color: #00a2e9;margin-left: -33px;font-weight: bold">CÂU LẠC BỘ</span>
+            <span class="sub-club-name" id="subclubname2" style="color: #ff66c4;font-weight: bold">HÀNH TRÌNH SINH VIÊN</span>
+        </div>
+        <img src="@(Url.Content("~/userimages/" + Model.HinhAnh))" class="custom-image">
+        <img src="@(Url.Content("~/qrcode/" + @Model.DuongdanQR))" class="custom-qr-code" alt="Qr Code" />
+    </div>
+    @if (User.IsInRole("Administrators"))
+    {   
+        <div class="custom-actions">
+            <a asp-action="Edit" asp-route-id="@Model?.MaSV">Edit</a> |
+            <a href="/SinhViens">Back to List</a>
+        </div>
+    }
+</div>
+<div class="download-button-container">
+    <button id="downloadImage" class="btn btn-success" data-filename="@Model.MaSV">
+        <div class="button-content">
+            Tải thẻ
+            <svg class="download-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z" />
+                <path d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
+            </svg>
+        </div>
+    </button>
+</div>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const downloadImageButton = document.getElementById('downloadImage');
+
+            if (downloadImageButton) {
+                downloadImageButton.addEventListener('click', function () {
+                    const fileName = downloadImageButton.getAttribute('data-filename');
+
+                    html2canvas(document.querySelector('.custom-card'), {
+                        backgroundColor: null,
+                        scrollX: 0,
+                        scrollY: -window.scrollY,
+                        width: document.querySelector('.custom-card').offsetWidth,
+                        height: document.querySelector('.custom-card').offsetHeight,
+                        scale: 2,
+                        onclone: function (clonedDoc) {
+                            // Điều chỉnh CSS trong bản sao để tải xuống
+                            clonedDoc.querySelector('.club-name').style.transform = 'translateY(-5.5px)';
+                            clonedDoc.querySelector('.custom-title').style.transform = 'translateY(-7px)'; // Điều chỉnh giá trị theo nhu cầu
+                        }
+                    }).then(canvas => {
+                        // Tải ảnh xuống
+                        const imgData = canvas.toDataURL('image/png');
+                        const link = document.createElement('a');
+                        link.href = imgData;
+                        link.download = `${fileName}.png`;
+                        link.click();
+                    }).catch(error => {
+                        console.error('Error generating image:', error);
+                    });
+                });
+            }
+        });
+    </script>
+}
+<style>
+
+</style>
