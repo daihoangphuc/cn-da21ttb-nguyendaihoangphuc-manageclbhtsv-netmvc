@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-Manage_CLB_HTSV-f849b4c9-bdf4-43ad-955e-a1620ca13966")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Manage_CLB_HTSV")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a29b62124f134dffdddf6b03ff533e0c2ec11bb2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Manage_CLB_HTSV")]

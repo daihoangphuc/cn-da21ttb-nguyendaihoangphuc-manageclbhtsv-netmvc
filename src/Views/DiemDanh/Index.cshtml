@@ -1,0 +1,290 @@
+﻿@model IEnumerable<Manage_CLB_HTSV.Models.HoatDong>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Điểm Danh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .border-green-500 {
+            border-color: #48bb78;
+        }
+
+        .border-red-500 {
+            border-color: #f56565;
+        }
+
+        .border-yellow-500 {
+            border-color: #ecc94b;
+        }
+
+        .text-green-500 {
+            color: #48bb78;
+        }
+
+        .text-red-500 {
+            color: #f56565;
+        }
+
+        .text-yellow-500 {
+            color: #ecc94b;
+        }
+
+        .camera-frame {
+            border-width: 8px;
+            border-style: solid;
+        }
+
+        .loader {
+            border: 8px solid rgba(0, 0, 0, 0.1);
+            border-left: 8px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .notification {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+            border-width: 1px;
+            border-style: solid;
+            display: none; /* Thêm dòng này để ẩn lúc ban đầu */
+        }
+
+        .notification-success {
+            color: #48bb78;
+            border-color: #48bb78;
+        }
+
+        .notification-error {
+            color: #f56565;
+            border-color: #f56565;
+        }
+
+        .notification-warning {
+            color: #ecc94b;
+            border-color: #ecc94b;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <div class="container mx-auto py-10">
+        <h1 class="text-3xl font-bold text-center mb-10" style="color: #00a2e9">Điểm Danh Hôm Nay</h1>
+        <ul class="space-y-4">
+            @foreach (var activity in Model)
+            {
+                <li class="flex items-center justify-between bg-white p-4 rounded-lg shadow-md">
+                    <span class="font-medium">@activity.TenHoatDong</span>
+                    <button onclick="startAttendance('@activity.MaHoatDong')" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition duration-300">
+                        Điểm danh
+                    </button>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div id="attendanceSection" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75" style="display:none;">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg relative">
+            <button onclick="closeAttendance()" class="absolute top-2 right-2 text-gray-600 hover:text-red-600 transition duration-300">
+                &times;
+            </button>
+            <div id="cameraFrame" style="border-radius: 50%" class="relative w-full h-72 border-8 border-gray-200 overflow-hidden flex items-center justify-center camera-frame">
+                <video id="video" class="rounded-lg w-full h-full object-cover" autoplay></video>
+            </div>
+            <div class="flex justify-evenly mt-4">
+                <button id="snap" class="bg-green-500 text-white py-2 px-4 rounded-lg shadow hover:bg-green-600 transition duration-300" style="width: 40%;">
+                    Xác thực
+                </button>
+                <button id="confirm" class="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300" style="width: 40%; display: none;">
+                    Xác nhận
+                </button>
+            </div>
+            <canvas id="canvas" class="hidden"></canvas>
+            <div id="result" class="notification" style="margin-top: 20px"></div>
+        </div>
+    </div>
+
+    <div id="loading" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" style="display:none;">
+        <div class="loader"></div>
+    </div>
+
+    <script>
+        let currentActivityId = null;
+        let stream = null;
+        let isProcessing = false;
+        let detectedName = null;
+        let isConfirming = false;
+
+        async function startAttendance(mahd) {
+            resetState();
+            currentActivityId = mahd;
+            document.getElementById('attendanceSection').style.display = 'flex';
+            const video = document.getElementById('video');
+            const snapButton = document.getElementById('snap');
+            const confirmButton = document.getElementById('confirm');
+            const loadingIndicator = document.getElementById('loading');
+
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } });
+                video.srcObject = stream;
+
+                snapButton.removeEventListener('click', handleSnapClick);
+                snapButton.addEventListener('click', handleSnapClick);
+
+                confirmButton.removeEventListener('click', handleConfirmClick);
+                confirmButton.addEventListener('click', handleConfirmClick);
+
+                async function handleSnapClick() {
+                    if (isProcessing) return;
+                    isProcessing = true;
+                    snapButton.disabled = true;
+                    loadingIndicator.style.display = 'flex';
+
+                    const canvas = document.getElementById('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const imageData = canvas.toDataURL('image/jpeg');
+
+                    try {
+                        const predictResponse = await fetch('https://api-detect-face-88e525469972.herokuapp.com/predict', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ image: imageData })
+                        });
+
+                        if (!predictResponse.ok) {
+                            throw new Error('Không nhận diện được khuôn mặt.');
+                        }
+
+                        const predictData = await predictResponse.json();
+
+                        if (predictData.name) {
+                            detectedName = predictData.name;
+                            updateUI(true, `Nhận diện thành công! Tên: ${detectedName}`);
+                            confirmButton.style.display = 'block';
+                        } else {
+                            updateUI(false, 'Không nhận diện được khuôn mặt.');
+                        }
+                    } catch (error) {
+                        updateUI(false, `Lỗi: ${error.message}`);
+                    } finally {
+                        snapButton.disabled = false;
+                        loadingIndicator.style.display = 'none';
+                        isProcessing = false;
+                    }
+                }
+
+                async function handleConfirmClick() {
+                    if (isConfirming || !detectedName || !currentActivityId) return;
+
+                    isConfirming = true;
+                    confirmButton.disabled = true;
+                    loadingIndicator.style.display = 'flex';
+
+                    try {
+                        const recordResponse = await fetch('@Url.Action("RecordAttendance", "DiemDanh")', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                name: detectedName,
+                                MaHoatDong: currentActivityId
+                            })
+                        });
+
+                        if (!recordResponse.ok) {
+                            throw new Error(`HTTP error! Status: ${recordResponse.status}`);
+                        }
+
+                        const recordResult = await recordResponse.json();
+                        updateUI(recordResult.success, recordResult.message);
+
+                        confirmButton.style.display = 'none';
+                    } catch (error) {
+                        updateUI(false, `Lỗi: ${error.message}`);
+                    } finally {
+                        loadingIndicator.style.display = 'none';
+                        confirmButton.disabled = false;
+                        isConfirming = false;
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+            }
+        }
+
+        function closeAttendance() {
+            document.getElementById('attendanceSection').style.display = 'none';
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        }
+
+        function updateUI(success, message) {
+            const cameraFrame = document.getElementById('cameraFrame');
+            const resultDiv = document.getElementById('result');
+
+            // Xóa các lớp CSS trước đó
+            resultDiv.classList.remove('notification-success', 'notification-error', 'notification-warning');
+            cameraFrame.classList.remove('border-green-500', 'border-red-500', 'border-yellow-500');
+
+            // Cập nhật trạng thái cho kết quả
+            if (success) {
+                cameraFrame.classList.add('border-green-500');
+                resultDiv.classList.add('notification-success');
+            } else {
+                cameraFrame.classList.add('border-red-500');
+                if (message.includes('đã điểm danh')) {
+                    resultDiv.classList.add('notification-warning');
+                    cameraFrame.classList.add('border-yellow-500');
+                } else {
+                    resultDiv.classList.add('notification-error');
+                }
+            }
+
+            resultDiv.textContent = message;
+            resultDiv.style.display = 'block'; // Hiện kết quả
+        }
+
+
+        function resetState() {
+            const cameraFrame = document.getElementById('cameraFrame');
+            cameraFrame.classList.remove('border-green-500', 'border-red-500', 'border-yellow-500');
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'notification'; // Đảm bảo lớp thông báo được đặt lại
+            resultDiv.textContent = '';
+            resultDiv.style.display = 'none'; // Ẩn kết quả
+
+            document.getElementById('confirm').style.display = 'none';
+
+            detectedName = null;
+            currentActivityId = null;
+
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+        }
+    </script>
+</body>
+</html>

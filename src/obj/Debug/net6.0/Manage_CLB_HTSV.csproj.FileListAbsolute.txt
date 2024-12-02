@@ -1,0 +1,10 @@
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.csproj.AssemblyReference.cache
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.GeneratedMSBuildEditorConfig.editorconfig
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.AssemblyInfoInputs.cache
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.AssemblyInfo.cs
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.csproj.CoreCompileInputs.cache
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.MvcApplicationPartsAssemblyInfo.cs
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.MvcApplicationPartsAssemblyInfo.cache
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.RazorAssemblyInfo.cache
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.RazorAssemblyInfo.cs
+D:\HocKy7\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\src\obj\Debug\net6.0\Manage_CLB_HTSV.sourcelink.json
