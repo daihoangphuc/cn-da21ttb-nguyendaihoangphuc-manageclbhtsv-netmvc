@@ -62,7 +62,8 @@ namespace Manage_CLB_HTSV.Controllers
             }
             else
             {
-                TempData["ErrorMessage_V_DiemDanh"] = $"Điểm danh thất bại. Bạn không ở gần địa điểm hoạt động.";
+                TempData["ErrorMessage_V_DiemDanh"] = $"Điểm danh thất bại. Bạn không ở gần địa điểm hoạt động." +
+                    $"\n Tọa độ của bạn là: {vido}, {kinhdo}";
                 //\n Tọa độ của bạn là {vido}, {kinhdo} 
                 return RedirectToAction(nameof(Index));
             }
@@ -119,19 +120,54 @@ namespace Manage_CLB_HTSV.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrators")]
-        public async Task<IActionResult> CapNhatMinhChung(string hoatDongId, string minhChungLink)
+        public async Task<IActionResult> CapNhatMinhChung(string hoatDongId, string minhChungLink, IFormFile minhChungFile)
         {
-            if (string.IsNullOrEmpty(hoatDongId) || string.IsNullOrEmpty(minhChungLink))
+            if (string.IsNullOrEmpty(hoatDongId))
             {
-                TempData["ErrorMessage"] = "Thông tin hoặc đường dẫn minh chứng không hợp lệ.";
+                TempData["ErrorMessage"] = "Mã hoạt động không hợp lệ.";
                 return RedirectToAction(nameof(Index));
             }
 
-            // Lấy danh sách sinh viên đã tham gia hoạt động
+            string minhChungPath = null;
+
+            // Xử lý nếu người dùng upload file
+            if (minhChungFile != null && minhChungFile.Length > 0)
+            {
+                string folderPath = Path.Combine(_webHostEnvironment.WebRootPath, "minhchunghd");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                // Tạo tên file duy nhất
+                string fileName = $"{Guid.NewGuid()}_{Path.GetFileName(minhChungFile.FileName)}";
+                string filePath = Path.Combine(folderPath, fileName);
+
+                // Lưu file vào server
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await minhChungFile.CopyToAsync(stream);
+                }
+
+                // Đường dẫn file được lưu
+                minhChungPath = $"/minhchunghd/{fileName}";
+            }
+            else if (!string.IsNullOrEmpty(minhChungLink))
+            {
+                // Nếu không upload file, sử dụng link do người dùng nhập
+                minhChungPath = minhChungLink;
+            }
+
+            if (string.IsNullOrEmpty(minhChungPath))
+            {
+                TempData["ErrorMessage"] = "Bạn phải nhập đường dẫn hoặc upload file minh chứng.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Cập nhật link minh chứng vào database
             var registeredStudents = await _context.ThamGiaHoatDong
                 .Where(dk => dk.MaHoatDong == hoatDongId)
                 .ToListAsync();
-
 
             if (registeredStudents == null || !registeredStudents.Any())
             {
@@ -141,58 +177,87 @@ namespace Manage_CLB_HTSV.Controllers
 
             foreach (var registeredStudent in registeredStudents)
             {
-                 registeredStudent.LinkMinhChung = minhChungLink;
-
+                registeredStudent.LinkMinhChung = minhChungPath;
                 _context.ThamGiaHoatDong.Update(registeredStudent);
             }
-            // Cập nhật trạng thái hoạt động nếu link minh chứng không rỗng
 
-
+            // Lưu thay đổi vào cơ sở dữ liệu
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Đã cập nhật minh chứng cho tất cả sinh viên thành công.";
-            // Lấy danh sách email từ bảng SinhVien
+
+            // Gửi email thông báo (đã có trong code của bạn)
             var sinhViens = (from sv in _context.SinhVien
                              join dk in _context.DangKyHoatDong on sv.MaSV equals dk.MaSV
                              join tg in _context.ThamGiaHoatDong on dk.MaDangKy equals tg.MaDangKy
                              where tg.MaHoatDong == hoatDongId && tg.DaThamGia
                              select sv.Email).Distinct().ToArray();
 
-
-            // Đường dẫn đến file HTML template
             string templatePath = Path.Combine(_webHostEnvironment.WebRootPath, "emailhtml", "email_template.html");
-
-            // Đọc nội dung của file template
             string htmlTemplate = System.IO.File.ReadAllText(templatePath);
 
-            // Sử dụng danh sách email
-            string[] recipients = sinhViens;
-            var hdong = _context.HoatDong.FirstOrDefault(h=>h.MaHoatDong == hoatDongId);
-
+            var hdong = _context.HoatDong.FirstOrDefault(h => h.MaHoatDong == hoatDongId);
             string subject = $"Hoạt động {hdong?.TenHoatDong} đã có minh chứng!";
-            // Thực hiện thay thế các giá trị mong muốn trong template
             string name = hdong.TenHoatDong.ToString();
             string tgian = hdong.ThoiGian.ToShortTimeString();
             string ngaytc = hdong.ThoiGian.ToLongDateString();
             string ddiem = hdong.DiaDiem.ToString();
-            string htmlMessage = htmlTemplate.Replace("{{TenHoatDong}}", name).Replace("{{ThoiGian}}", tgian).Replace("{{NgayToChuc}}", ngaytc).Replace("{{DiaDiem}}", ddiem);
-
-
-     
+            string htmlMessage = htmlTemplate.Replace("{{TenHoatDong}}", name)
+                                             .Replace("{{ThoiGian}}", tgian)
+                                             .Replace("{{NgayToChuc}}", ngaytc)
+                                             .Replace("{{DiaDiem}}", ddiem);
 
             try
             {
-                await _emailSender.SendEmailsAsync(recipients, subject, htmlMessage);
-                return RedirectToAction("Index", "Home"); // Redirect to success page
+                await _emailSender.SendEmailsAsync(sinhViens, subject, htmlMessage);
             }
             catch (Exception ex)
             {
-                // Handle error appropriately
-                
+                // Log lỗi nếu cần
             }
+
             return RedirectToAction("Index", "ThamGiaHoatDongs");
         }
 
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult DownloadMinhChung(string filePath)
+        {
+            try
+            {
+                // Giải mã nếu URL bị mã hóa
+                filePath = Uri.UnescapeDataString(filePath);
+
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    TempData["ErrorMessage"] = "Đường dẫn file không hợp lệ.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                // Tạo đường dẫn đầy đủ tới tệp trong thư mục wwwroot
+                var fullPath = Path.Combine(_webHostEnvironment.WebRootPath, filePath.TrimStart('/'));
+
+                // Kiểm tra tệp có tồn tại không
+                if (!System.IO.File.Exists(fullPath))
+                {
+                    TempData["ErrorMessage"] = "File không tồn tại.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                // Đọc tệp và trả về kết quả
+                var fileBytes = System.IO.File.ReadAllBytes(fullPath);
+                var fileName = Path.GetFileName(filePath);
+
+                // Trả về tệp với tên và loại MIME thích hợp
+                return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Lỗi khi tải file: {ex.Message}";
+                return RedirectToAction(nameof(Index));
+            }
+        }
 
 
 
@@ -416,6 +481,12 @@ namespace Manage_CLB_HTSV.Controllers
                 .Where(tg => tg.MaSV == Mssv)
                 .ToDictionary(tg => tg.MaHoatDong, tg => tg.DaThamGia);
 
+
+            var svdathamgia = _context.ThamGiaHoatDong
+                .Where(tg => tg.MaSV == Mssv && tg.DaThamGia == true)
+                .Select(tg => tg.MaHoatDong)
+                .ToList();
+            ViewBag.SVDaThamGia = svdathamgia;
             // Truyền danh sách trạng thái "Đã Tham Gia" vào ViewBag
             ViewBag.ThamGiaStatuses = thamGiaHoatDong;
 

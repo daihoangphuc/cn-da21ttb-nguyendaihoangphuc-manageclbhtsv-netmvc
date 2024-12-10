@@ -3,9 +3,10 @@ using Manage_CLB_HTSV.Data;
 using Manage_CLB_HTSV.Services;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
-using System.Net;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,8 +31,32 @@ builder.Services.AddSignalR();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.Name = "AspNetCore.Identity.Application";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);  // Thời gian sống của phiên
     options.SlidingExpiration = true;
+
+    // Cấu hình khi phiên hết hạn (redirect và thông báo lỗi)
+    options.Events = new CookieAuthenticationEvents
+    {
+        OnRedirectToLogin = context =>
+        {
+            // Chuyển hướng đến trang đăng nhập khi hết hạn session
+            if (context.Request.Path != "/Identity/Account/Login" &&
+                !context.Request.Path.StartsWithSegments("/Identity/Account"))
+            {
+                context.Response.Redirect("/Identity/Account/Login");
+            }
+            return Task.CompletedTask;
+        },
+        OnRedirectToAccessDenied = context =>
+        {
+            // Xử lý khi người dùng không có quyền truy cập
+            if (context.Request.Path != "/Account/AccessDenied")
+            {
+                context.Response.Redirect("/Account/AccessDenied");
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 
 // Add session services
@@ -45,7 +70,7 @@ builder.Services.AddSession(options => {
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
 // Thêm cấu hình xác thực bằng Microsoft Account
-/*builder.Services.AddAuthentication()
+builder.Services.AddAuthentication()
     .AddCookie(options =>
     {
         options.LoginPath = "/Identity/Account/Login";
@@ -55,18 +80,10 @@ ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
     {
         options.ClientId = builder.Configuration["Authentication:Microsoft:ClientId"];
         options.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"];
-    });*/
+    });
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.Cookie.Name = "AspNetCore.Identity.Application";
-    options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-    options.SlidingExpiration = true;
-    options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/AccessDenied";
-});
-/*
+
+
 WebHost.CreateDefaultBuilder(args)
        .UseStartup<Program>()
        .UseKestrel(options =>
@@ -75,13 +92,14 @@ WebHost.CreateDefaultBuilder(args)
            {
                listenOptions.UseHttps("your_certificate.crt", "your_private_key.key");
            });
-       });*/
+       });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else
@@ -90,7 +108,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseExceptionHandler("/Home/Error");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -120,6 +138,10 @@ app.UseEndpoints(endpoints =>
         name: "sinhVienSearch",
         pattern: "SinhViens/Search",
         defaults: new { controller = "SinhViens", action = "Search" });
+    endpoints.MapControllerRoute(
+       name: "downloadMinhChung",
+       pattern: "ThamGiaHoatDongs/DownloadMinhChung/{filePath}",
+       defaults: new { controller = "ThamGiaHoatDongs", action = "DownloadMinhChung" });
     endpoints.MapHub<ChatHub>("/chatHub");
 });
 

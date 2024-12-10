@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace Manage_CLB_HTSV.Models
 {
@@ -47,5 +48,6 @@ namespace Manage_CLB_HTSV.Models
         public string? HinhAnh { get; set; }
         [DisplayName("Mã QR")]
         public string? DuongdanQR { get; set; }
+
     }
 }

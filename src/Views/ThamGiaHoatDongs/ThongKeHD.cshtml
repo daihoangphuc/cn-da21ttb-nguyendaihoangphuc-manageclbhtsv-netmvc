@@ -1,0 +1,38 @@
+﻿@using Manage_CLB_HTSV.Models.ViewModel
+@model HoatDongViewModel
+@{
+    if (User.IsInRole("Administrators"))
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+}
+
+@if (!string.IsNullOrEmpty(Model.TenHoatDong))
+{
+    <h3>Thống kê cho hoạt động: @Model.TenHoatDong</h3>
+
+    <!-- Biểu đồ thống kê -->
+    <canvas id="thongKeChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const data = {
+            labels: ['Tham gia', 'Vắng mặt'],
+            datasets: [{
+                label: 'Thống kê tham gia',
+                data: [@Model.SoLuongThamGia, @Model.SoLuongVang],
+                backgroundColor: ['#4CAF50', '#F44336']
+            }]
+        };
+
+        const config = {
+            type: 'pie',
+            data: data
+        };
+
+        const thongKeChart = new Chart(
+            document.getElementById('thongKeChart'),
+            config
+        );
+    </script>
+}
