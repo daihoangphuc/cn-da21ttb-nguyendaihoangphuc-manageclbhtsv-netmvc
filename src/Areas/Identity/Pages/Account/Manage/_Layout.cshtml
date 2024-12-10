@@ -11,9 +11,11 @@
 
 <h1 class="text-center mt-4" style="color: #00a2e9">Quản lý tài khoản</h1>
 
+
+@RenderBody()
 <div class="container mt-5">
 @*     <h2 class="text-center text-secondary">Thay đổi thông tin tài khoản</h2> *@
-    <div class="row mt-2">
+@*     <div class="row mt-2">
         <div class="col-md-3">
             <partial name="_ManageNav" />
         </div>
@@ -21,7 +23,7 @@
             @RenderBody()
         </div>
     </div>
-</div>
+</div> *@
 
 @section Scripts {
     @RenderSection("Scripts", required: false)

@@ -16,5 +16,4 @@ Website này được xây dựng để hỗ trợ quản lý các hoạt độn
 - **Backend**: ASP.NET MVC 6, C#
 - **Frontend**: HTML, CSS (Bootstrap), JavaScript
 - **Database**: Microsoft SQL Server
-- **Công cụ CI/CD**: GitHub Actions
 - **Các công nghệ khác**: Entity Framework

@@ -21,6 +21,20 @@ namespace Manage_CLB_HTSV.Controllers
             _userManager = userManager;
             _configuration = configuration;
         }
+        [HttpPost]
+        public async Task<IActionResult> CapNhatTrangThaiHD(string MaHD)
+        {
+            var hoatDong = await _context.HoatDong.FindAsync(MaHD);
+            if (hoatDong != null)
+            {
+                hoatDong.TrangThai = "Đã kết thúc";
+                _context.Update(hoatDong);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index)); // Điều hướng sau khi cập nhật
+        }
+
         public async Task<IActionResult> UpdateTrangThaiHoatDong()
         {
             var hoatDongs = await _context.HoatDong

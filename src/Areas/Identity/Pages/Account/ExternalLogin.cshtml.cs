@@ -133,6 +133,24 @@ namespace Manage_CLB_HTSV.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                // Kiểm tra nếu tài khoản đã tồn tại
+                var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+                if (existingUser != null)
+                {
+                    // Đăng nhập tài khoản nếu tồn tại
+                    var loginResult = await _userManager.AddLoginAsync(existingUser, info);
+                    if (loginResult.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(existingUser, isPersistent: false, info.LoginProvider);
+                        _logger.LogInformation("Người dùng đã đăng nhập bằng tài khoản đã tồn tại qua nhà cung cấp {Name}.", info.LoginProvider);
+                        return LocalRedirect(returnUrl);
+                    }
+
+                    TempData["ErrorMessage"] = "Tài khoản đã tồn tại nhưng không thể liên kết với nhà cung cấp này.";
+                    return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+                }
+
+                // Tạo tài khoản mới nếu không tồn tại
                 var user = CreateUser();
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -144,7 +162,7 @@ namespace Manage_CLB_HTSV.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("Người dùng đã tạo tài khoản bằng nhà cung cấp {Name}.", info.LoginProvider);
-                        //Add user to role
+                        // Add user to role
                         await _userManager.AddToRoleAsync(user, "Users");
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -177,13 +195,6 @@ namespace Manage_CLB_HTSV.Areas.Identity.Pages.Account
                     }
                 }
 
-                // Nếu tên người dùng đã tồn tại, chuyển hướng về trang đăng nhập và truyền thông báo lỗi
-                if (result.Errors.Any(e => e.Code == "DuplicateUserName"))
-                {
-                    TempData["ErrorMessage"] = $"Tài khoản {Input.Email} đã tồn tại! Hãy ấn quên mật khẩu nếu bạn không nhớ mật khẩu!";
-                    return RedirectToPage("/Account/Login");
-                }
-
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -194,6 +205,7 @@ namespace Manage_CLB_HTSV.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             return Page();
         }
+
 
 
         private IdentityUser CreateUser()

@@ -14,10 +14,10 @@
                 <button class="btn ml-4 btn-primary mb-4">Tạo mới</button>
             </a>
         </p>
-        @using (Html.BeginForm("UpdateTrangThai", "HoatDongs", FormMethod.Post))
+@*         @using (Html.BeginForm("UpdateTrangThai", "HoatDongs", FormMethod.Post))
         {
             <button type="submit" class="btn btn-danger ml-4">Cập nhật Trạng thái</button>
-        }
+        } *@
     </div>
 }
 
@@ -45,12 +45,22 @@
                         {
                         <button class="bg-blue-500 text-white font-semibold px-4 py-2 mt-2 rounded hover:bg-blue-600 register-btn" onclick="prepareRegistration('@i.MaHoatDong')">Đăng ký</button>
                         }else{
-                            <a asp-action="Edit" asp-route-id="@i.MaHoatDong" style="text-decoration: none">
-                                <button class="bg-yellow-500 text-white font-semibold px-4 py-2 mt-2 rounded hover:bg-yellow-600 register-btn">Sửa</button>
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@i.MaHoatDong" style="text-decoration: none">
-                                <button class="bg-red-500 text-white font-semibold px-4 py-2 mt-2 rounded hover:bg-red-600 register-btn">Xóa</button>
-                            </a>
+                            <div class="d-flex justify-content-evenly" style="width: 100px">
+                                <a asp-action="Edit" asp-route-id="@i.MaHoatDong" style="text-decoration: none">
+                                    <button class="bg-yellow-500 text-white font-semibold px-4 py-2 mt-2 rounded hover:bg-yellow-600 register-btn">Sửa</button>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@i.MaHoatDong" style="text-decoration: none">
+                                    <button class="bg-red-500 text-white font-semibold px-4 py-2 ml-5 mt-2 rounded hover:bg-red-600 register-btn">Xóa</button>
+                                </a>
+                            </div>
+                            <form asp-action="CapNhatTrangThaiHD" asp-route-MaHD="@i.MaHoatDong" method="post">
+                                <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 mt-2 rounded hover:bg-red-600 register-btn">
+                                    Kết thúc hoạt động
+                                </button>
+                            </form>
+
+                                
+                            
                         }
                     </div>
 @*                     @if (User.IsInRole("Administrators"))

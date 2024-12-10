@@ -27,11 +27,9 @@ namespace Manage_CLB_HTSV.Models
         public DateTime NgayDang { get; set; }
 
         [StringLength(20)]
-      
-
-        [ForeignKey("NguoiDang")]
+        public string? MaSV { get; set; }
+        [ForeignKey("MaSV")]
         [DisplayName("Sinh Viên")]
-        public string? NguoiDang { get; set; }
         public SinhVien? SinhVien { get; set; }
     }
 }

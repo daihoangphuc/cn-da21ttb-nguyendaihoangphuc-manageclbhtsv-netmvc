@@ -282,6 +282,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9hdERvbmdzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Home/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -330,18 +334,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9wSG9jc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Role (2)/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZSAoMilcQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Role (2)/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZSAoMilcRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Role (2)/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZSAoMilcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Role/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -354,16 +346,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/Components/Avatar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQXZhdGFyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/Components/Chart/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2hhcnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/Components/ListBanChuNhiem/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTGlzdEJhbkNodU5oaWVtXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/Components/ListTinTuc/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTGlzdFRpblR1Y1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/Components/ThongKeThamGiaHD/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVGhvbmdLZVRoYW1HaWFIRFxEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/_AdminLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/_LoginPartial.cshtml]
@@ -426,8 +434,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhhbUdpYUhvYXREb25nc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/ThamGiaHoatDongs/ThongKeHD.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhhbUdpYUhvYXREb25nc1xUaG9uZ0tlSEQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/ThamGiaHoatDongs/XuatDS.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhhbUdpYUhvYXREb25nc1xYdWF0RFMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/TinTucs/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluVHVjc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/TinTucs/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluVHVjc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/TinTucs/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluVHVjc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/TinTucs/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluVHVjc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/TinTucs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluVHVjc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/TinTucs/_NewPasrtialList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluVHVjc1xfTmV3UGFzcnRpYWxMaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/User/AddRole.cshtml]
@@ -449,3 +485,7 @@ build_metadata.AdditionalFiles.CssScope =
 [D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HocKy7/cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc/src/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-pammmaet9c

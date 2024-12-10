@@ -15,8 +15,9 @@
     </div>
 }
 
-<form method="post">
-    <div class="form-group">
+
+<form asp-action="CapNhatMinhChung" method="post" enctype="multipart/form-data">
+    <div>
         <label for="hoatDongId">Chọn hoạt động:</label>
         <select class="form-control" id="hoatDongId" name="hoatDongId">
             @foreach (var item in ViewBag.ActivityList)
@@ -25,9 +26,14 @@
             }
         </select>
     </div>
-    <div class="form-group">
-        <label for="minhChungLink">Đường dẫn minh chứng:</label>
-        <input type="text" class="form-control" id="minhChungLink" name="minhChungLink">
+@*     <div>
+        <label for="minhChungLink">Nhập đường dẫn minh chứng:</label>
+        <input type="text" id="minhChungLink" name="minhChungLink" class="form-control" />
+    </div> *@
+    <div>
+        <label for="minhChungFile">Upload file minh chứng:</label>
+        <input type="file" id="minhChungFile" name="minhChungFile" class="form-control" accept="application/pdf" />
     </div>
-    <button type="submit" class="btn btn-primary">Cập nhật minh chứng</button>
+
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
 </form>

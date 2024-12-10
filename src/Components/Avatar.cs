@@ -4,14 +4,14 @@ using Manage_CLB_HTSV.Data;
 
 namespace Manage_CLB_HTSV.Components
 {
-        public class Avatar : ViewComponent
-        {
-            private readonly ApplicationDbContext _context;
+    public class Avatar : ViewComponent
+    {
+        private readonly ApplicationDbContext _context;
 
-            public Avatar(ApplicationDbContext context)
-            {
-                _context = context;
-            }
+        public Avatar(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public IViewComponentResult Invoke()
         {
             string user = User.Identity.Name.Split('@')[0];

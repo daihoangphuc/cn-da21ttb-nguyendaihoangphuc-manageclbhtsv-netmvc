@@ -101,30 +101,39 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         @i.HoatDong.TrangThai
                     </td>
-                    @if (@i.HoatDong.TrangThai != "Đã kết thúc" && !User.IsInRole("Administrators"))
+                    @if ( !User.IsInRole("Administrators"))
                     {
                         <td>
-                            <form asp-controller="DangKyHoatDongs" asp-action="HuyDangKy" method="post" asp-route-hoatDongId="@i.MaHoatDong">
-                                <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600 register-btn">
-                                    Hủy
-                                </button>
-                            </form>
-                        </td>
-                        <td>
-                            @if (daThamGia)
+                            @if (@i.HoatDong.TrangThai != "Đã kết thúc" && ViewBag.SVDaThamGia != null && !ViewBag.SVDaThamGia.Contains(i.MaHoatDong))
                             {
-                            }
-                            else
-                            {
-                                <form asp-action="DiemDanh" method="post" class="diemDanhForm" data-mahd="@i.MaHoatDong">
-                                    <div class="form-group">
-                                        <input type="hidden" class="form-control" name="mahd" value="@i.MaHoatDong" />
-                                        <input type="hidden" class="form-control kinhdo" name="kinhdo" />
-                                        <input type="hidden" class="form-control vido" name="vido" />
-                                    </div>
-                                    <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 register-btn">Điểm Danh</button>
+                                <form asp-controller="DangKyHoatDongs" asp-action="HuyDangKy" method="post" asp-route-hoatDongId="@i.MaHoatDong">
+                                    <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600 register-btn">
+                                        Hủy
+                                    </button>
                                 </form>
                             }
+
+
+                        </td>
+                        <td>
+                            @if (@i.HoatDong.TrangThai == "Đã kết thúc")
+                            {
+                                @if (daThamGia)
+                                {
+                                }
+                                else
+                                {
+                                    <form asp-action="DiemDanh" method="post" class="diemDanhForm" data-mahd="@i.MaHoatDong">
+                                        <div class="form-group">
+                                            <input type="hidden" class="form-control" name="mahd" value="@i.MaHoatDong" />
+                                            <input type="hidden" class="form-control kinhdo" name="kinhdo" />
+                                            <input type="hidden" class="form-control vido" name="vido" />
+                                        </div>
+                                        <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 register-btn">Điểm Danh</button>
+                                    </form>
+                                }
+                            }
+
                         </td>
                     }
                     @if (User.IsInRole("Administrators"))

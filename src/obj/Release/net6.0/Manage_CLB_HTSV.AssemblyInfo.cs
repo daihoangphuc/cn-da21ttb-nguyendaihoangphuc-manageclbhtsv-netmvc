@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Manage_CLB_HTSV")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca75e0b8452a824135bb7c657dd4847328bf3de3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dfe9e7e82ceb9f0887212f0242606a12b6cf6176")]
 [assembly: System.Reflection.AssemblyProductAttribute("Manage_CLB_HTSV")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Manage_CLB_HTSV")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

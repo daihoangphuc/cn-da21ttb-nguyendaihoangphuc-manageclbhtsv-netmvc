@@ -22,7 +22,10 @@ namespace Manage_CLB_HTSV.Controllers
         {
             return View();
         }
-
+        /*       public IActionResult Error()
+               {
+                   return View(); // Trả về trang báo lỗi
+               }*/
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

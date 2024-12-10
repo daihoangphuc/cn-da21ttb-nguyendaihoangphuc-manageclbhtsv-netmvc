@@ -90,7 +90,10 @@ namespace Manage_CLB_HTSV.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-
+/*            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                ModelState.AddModelError(string.Empty, "Phiên làm việc của bạn đã hết hạn.");
+            }*/
             returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
