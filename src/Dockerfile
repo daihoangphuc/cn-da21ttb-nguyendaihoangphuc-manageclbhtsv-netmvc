@@ -7,67 +7,52 @@ EXPOSE 443
 # Step 2: Add certificate and private key files to the container
 COPY Certificates/certificate.crt /app/certificate.crt
 COPY Certificates/private.key /app/private.key
-COPY Certificates/your_certificate.pem /app/certificate.pem
 
 # Add this after copying certificates
 RUN chmod 600 /app/private.key && \
-    chmod 644 /app/certificate.crt && \
-    chmod 600 /app/certificate.pem
+    chmod 644 /app/certificate.crt
 
 # Step 3: Set up HTTPS for Kestrel
 ENV ASPNETCORE_URLS=http://+:80;https://+:443
 RUN sed -i 's/TLSv1.2/TLSv1.0 TLSv1.1 TLSv1.2/g' /etc/ssl/openssl.cnf
-
-# Step 4: Create a new stage to execute dotnet dev-certs commands
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS certs
-WORKDIR /app
-
-# Declare ARG to pass variables from the build command
-ARG PFX_PASSWORD
-
-# Use the ARG variable with the dotnet dev-certs command
-RUN mkdir -p /https/ && \
-    dotnet dev-certs https -ep /https/aspnetapp.pfx -p $PFX_PASSWORD && \
-    openssl pkcs12 -in /https/aspnetapp.pfx -out /https/aspnetapp.pem -nodes -password pass:$PFX_PASSWORD
 
 # Step 5: Install the application
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY . .
 
-# Declare ARG variables to pass from GitHub secrets during the Docker images build process
+# Declare ARG variables
 ARG DB_PASSWORD2
 ARG SMTP_PASSWORD
 ARG PFX_PASSWORD
 ARG MICROSOFT_CLIENT_ID
 ARG MICROSOFT_CLIENT_SECRET
 
-# Step 6: Set environment variables at runtime
+# Set environment variables
 ENV DB_PASSWORD2=$DB_PASSWORD2
 ENV SMTP_PASSWORD=$SMTP_PASSWORD
 ENV PFX_PASSWORD=$PFX_PASSWORD
 ENV MICROSOFT_CLIENT_ID=$MICROSOFT_CLIENT_ID
 ENV MICROSOFT_CLIENT_SECRET=$MICROSOFT_CLIENT_SECRET
 
-# Replace the ${secrets. } string in appsettings.json with the value of the environment variable
+# Replace secrets in appsettings.json
 RUN sed -i "s|\${secrets.DB_PASSWORD2}|$DB_PASSWORD2|g" appsettings.json
 RUN sed -i "s|\${secrets.SMTP_PASSWORD}|$SMTP_PASSWORD|g" appsettings.json
 RUN sed -i "s|\${secrets.PFX_PASSWORD}|$PFX_PASSWORD|g" appsettings.json
 RUN sed -i "s|\${secrets.MICROSOFT_CLIENT_ID}|$MICROSOFT_CLIENT_ID|g" appsettings.json
 RUN sed -i "s|\${secrets.MICROSOFT_CLIENT_SECRET}|$MICROSOFT_CLIENT_SECRET|g" appsettings.json
 
-# Restore and build the application
+# Build application
 RUN dotnet restore Manage-CLB-HTSV.generated.sln
 RUN dotnet build Manage-CLB-HTSV.generated.sln -c Release -o /app/build
 
-# Step 7: Publish the application
+# Publish application
 FROM build AS publish
 RUN dotnet publish Manage-CLB-HTSV.generated.sln -c Release -o /app/publish
 
-# Step 8: Build the final application
+# Final stage
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish ./
-COPY --from=certs /https/aspnetapp.pem /https/aspnetapp.pem
 
 ENTRYPOINT ["dotnet", "Manage_CLB_HTSV.dll"]
