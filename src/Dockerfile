@@ -5,9 +5,14 @@ EXPOSE 80
 EXPOSE 443
 
 # Step 2: Add certificate and private key files to the container
-COPY Certificates/certificate.crt /app
-COPY Certificates/private.key /app
-COPY Certificates/your_certificate.pfx /app
+COPY Certificates/certificate.crt /app/certificate.crt
+COPY Certificates/private.key /app/private.key
+COPY Certificates/your_certificate.pfx /app/your_certificate.pfx
+
+# Add this after copying certificates
+RUN chmod 600 /app/private.key && \
+    chmod 644 /app/certificate.crt && \
+    chmod 600 /app/your_certificate.pfx
 
 # Step 3: Set up HTTPS for Kestrel
 ENV ASPNETCORE_URLS=http://+:80;https://+:443
@@ -21,8 +26,9 @@ WORKDIR /app
 ARG PFX_PASSWORD
 
 # Use the ARG variable with the dotnet dev-certs command
-RUN dotnet dev-certs https -ep /https/aspnetapp.pfx -p $PFX_PASSWORD
-RUN openssl pkcs12 -in /https/aspnetapp.pfx -out /https/aspnetapp.pem -nodes -password pass:$PFX_PASSWORD
+RUN mkdir -p /https/ && \
+    dotnet dev-certs https -ep /https/aspnetapp.pfx -p $PFX_PASSWORD && \
+    openssl pkcs12 -in /https/aspnetapp.pfx -out /https/aspnetapp.pem -nodes -password pass:$PFX_PASSWORD
 
 # Step 5: Install the application
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
