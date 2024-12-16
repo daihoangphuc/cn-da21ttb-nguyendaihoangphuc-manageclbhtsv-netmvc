@@ -44,19 +44,19 @@ ENV MICROSOFT_CLIENT_ID=$MICROSOFT_CLIENT_ID
 ENV MICROSOFT_CLIENT_SECRET=$MICROSOFT_CLIENT_SECRET
 
 # Replace the ${secrets. } string in appsettings.json with the value of the environment variable
-RUN sed -i "s|\${secrets.DB_PASSWORD2}|$DB_PASSWORD2|g" src/Manage-CLB-HTSV.API/appsettings.json
-RUN sed -i "s|\${secrets.SMTP_PASSWORD}|$SMTP_PASSWORD|g" src/Manage-CLB-HTSV.API/appsettings.json
-RUN sed -i "s|\${secrets.PFX_PASSWORD}|$PFX_PASSWORD|g" src/Manage-CLB-HTSV.API/appsettings.json
-RUN sed -i "s|\${secrets.MICROSOFT_CLIENT_ID}|$MICROSOFT_CLIENT_ID|g" src/Manage-CLB-HTSV.API/appsettings.json
-RUN sed -i "s|\${secrets.MICROSOFT_CLIENT_SECRET}|$MICROSOFT_CLIENT_SECRET|g" src/Manage-CLB-HTSV.API/appsettings.json
+RUN sed -i "s|\${secrets.DB_PASSWORD2}|$DB_PASSWORD2|g" appsettings.json
+RUN sed -i "s|\${secrets.SMTP_PASSWORD}|$SMTP_PASSWORD|g" appsettings.json
+RUN sed -i "s|\${secrets.PFX_PASSWORD}|$PFX_PASSWORD|g" appsettings.json
+RUN sed -i "s|\${secrets.MICROSOFT_CLIENT_ID}|$MICROSOFT_CLIENT_ID|g" appsettings.json
+RUN sed -i "s|\${secrets.MICROSOFT_CLIENT_SECRET}|$MICROSOFT_CLIENT_SECRET|g" appsettings.json
 
 # Restore and build the application
-RUN dotnet restore src/Manage-CLB-HTSV.generated.sln
-RUN dotnet build src/Manage-CLB-HTSV.generated.sln -c Release -o /app/build
+RUN dotnet restore Manage-CLB-HTSV.generated.sln
+RUN dotnet build Manage-CLB-HTSV.generated.sln -c Release -o /app/build
 
 # Step 7: Publish the application
 FROM build AS publish
-RUN dotnet publish src/Manage-CLB-HTSV.generated.sln -c Release -o /app/publish
+RUN dotnet publish Manage-CLB-HTSV.generated.sln -c Release -o /app/publish
 
 # Step 8: Build the final application
 FROM base AS final
