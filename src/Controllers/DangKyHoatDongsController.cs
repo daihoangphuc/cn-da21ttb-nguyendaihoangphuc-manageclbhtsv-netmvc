@@ -463,7 +463,7 @@ namespace Manage_CLB_HTSV.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 hoatdong = hoatdong
-                    .Where(s => s.MaHoatDong.Contains(searchString) || s.MaSV.Contains(searchString));
+                    .Where(s => s.MaHoatDong.Contains(searchString) || s.MaSV.Contains(searchString) || s.HoatDong.TenHoatDong.Contains(searchString));
             }
 
             // Sắp xếp theo NgàyĐăngKý gần nhất lên đầu tiên

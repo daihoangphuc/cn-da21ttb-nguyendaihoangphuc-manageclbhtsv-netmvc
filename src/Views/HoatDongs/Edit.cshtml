@@ -53,9 +53,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="TrangThai" class="control-label"></label>
-                <input asp-for="TrangThai" class="form-control" />
+                <select asp-for="TrangThai" class="form-control">
+                    <option value="Sắp diễn ra" >Sắp diễn ra</option>
+                    <option value="Đã kết thúc" >Đã kết thúc</option>
+                </select>
                 <span asp-validation-for="TrangThai" class="text-danger"></span>
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="DaDangKi" /> @Html.DisplayNameFor(model => model.DaDangKi)
@@ -91,6 +95,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Quay lại</a>
 </div>
 

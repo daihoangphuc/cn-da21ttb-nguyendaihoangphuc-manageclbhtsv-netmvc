@@ -1,27 +1,27 @@
 ﻿@model PaginatedList<DangKyHoatDong>
 
-@if (TempData["SuccessMessage_V_DiemDanh"] != null)
+    @if (TempData["SuccessMessage_V_DiemDanh"] != null)
 {
     <div id="successMessage" class="alert alert-success">
         @TempData["SuccessMessage_V_DiemDanh"]
     </div>
 }
 
-@if (TempData["ErrorMessage_V_DiemDanh"] != null)
+    @if (TempData["ErrorMessage_V_DiemDanh"] != null)
 {
     <div id="errorMessage" class="alert alert-danger">
         @TempData["ErrorMessage_V_DiemDanh"]
     </div>
 }
-@{
+    @{
     if (User.IsInRole("Administrators"))
     {
         Layout = "~/Views/Shared/_AdminLayout.cshtml";
     }
-}
+    }
 
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-@if (User.IsInRole("Administrators"))
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    @if (User.IsInRole("Administrators"))
 {
     <p>
         <a asp-action="Create">
@@ -29,54 +29,55 @@
         </a>
     </p>
 }
-<h2 class="text-2xl font-semibold text-center mb-6 overflow-y-auto" style="max-height: calc(3 * (3.5rem + 1rem));color: #00a2e9">Hoạt động đã đăng ký</h2>
+    <h2 class="text-2xl font-semibold text-center mb-6 overflow-y-auto" style="max-height: calc(3 * (3.5rem + 1rem));color: #00a2e9">Hoạt động đã đăng ký</h2>
 
-@{
+    @{
     int count = (10 * (Model.PageIndex - 1)) + 1;
-}
-<form asp-controller="DangKyHoatDongs" asp-action="Index" class="search-form justify-center mb-2">
-    <div class="search-container mb-2">
-        <input type="text" class="search-input w-full md:w-80 mb-2 md:mb-0" placeholder="Tìm kiếm" name="SearchString">
-        <button class="search-button ml-2">
-            <i class="bi bi-search"></i>
-        </button>
-    </div>
-</form>
+    }
+    <form asp-controller="DangKyHoatDongs" asp-action="Index" class="search-form justify-center mb-2">
+        <div class="search-container mb-2">
+            <input type="text" class="search-input w-full md:w-80 mb-2 md:mb-0" placeholder="Tìm kiếm" name="SearchString">
+            <button class="search-button ml-2">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+    </form>
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
-<div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 ">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    STT
-                </th>
+    <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 ">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        STT
+                    </th>
                     <th scope="col" class="px-6 py-3">
                         Tên hoạt động
                     </th>
-                @if (User.IsInRole("Administrators"))
+                    @if (User.IsInRole("Administrators"))
                 {
                     <th scope="col" class="px-6 py-3">
                         Họ tên
                     </th>
                 }
-                <th scope="col" class="px-6 py-3">
-                    Ngày diễn ra
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Ngày đăng ký
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Trạng thái
-                </th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var i in Model.Items)
+                    <th scope="col" class="px-6 py-3">
+                        Ngày diễn ra
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Ngày đăng ký
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Trạng thái
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.Items)
             {
                 bool daThamGia = ViewBag.ThamGiaStatuses.ContainsKey(i.MaHoatDong) ? ViewBag.ThamGiaStatuses[i.MaHoatDong] : false;
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -91,9 +92,9 @@
                     </td>
                     @if (User.IsInRole("Administrators"))
                     {
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @i.SinhVien.HoTen
-                        </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @i.SinhVien.HoTen
+                    </td>
                     }
                     <td class="px-6 py-4 whitespace-nowrap">
                         @i.NgayDangKy.ToString("HH:mm dd/MM/yyyy")
@@ -103,55 +104,109 @@
                     </td>
                     @if ( !User.IsInRole("Administrators"))
                     {
-                        <td>
-                            @if (@i.HoatDong.TrangThai != "Đã kết thúc" && ViewBag.SVDaThamGia != null && !ViewBag.SVDaThamGia.Contains(i.MaHoatDong))
-                            {
-                                <form asp-controller="DangKyHoatDongs" asp-action="HuyDangKy" method="post" asp-route-hoatDongId="@i.MaHoatDong">
-                                    <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600 register-btn">
-                                        Hủy
-                                    </button>
-                                </form>
-                            }
+                    <td class="flex items-center space-x-4">
+                        @if (@i.HoatDong.TrangThai != "Đã kết thúc" && ViewBag.SVDaThamGia != null && !ViewBag.SVDaThamGia.Contains(i.MaHoatDong))
+    {
+                        <form asp-controller="DangKyHoatDongs" asp-action="HuyDangKy" method="post" asp-route-hoatDongId="@i.MaHoatDong" class="cancelForm">
+                            <button type="submit" style="margin-left: 16px" class="mt-3 bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600 register-btn cancelButton">
+                                Hủy
+                            </button>
+                        </form>
+    }
 
+                        @if (@i.HoatDong.TrangThai == "Đã kết thúc")
+    {
+        if (!daThamGia)
+        {
+            <!-- Dropdown button and menu -->
+                        <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+                        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
-                        </td>
-                        <td>
-                            @if (@i.HoatDong.TrangThai == "Đã kết thúc")
-                            {
-                                @if (daThamGia)
-                                {
-                                }
-                                else
-                                {
-                                    <form asp-action="DiemDanh" method="post" class="diemDanhForm" data-mahd="@i.MaHoatDong">
-                                        <div class="form-group">
-                                            <input type="hidden" class="form-control" name="mahd" value="@i.MaHoatDong" />
-                                            <input type="hidden" class="form-control kinhdo" name="kinhdo" />
-                                            <input type="hidden" class="form-control vido" name="vido" />
+                        <button id="dropdownLeftButton" data-dropdown-toggle="dropdownLeft" data-dropdown-placement="left" style="margin-top: 13px;" class=" md:mb-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                            <svg class="w-2.5 h-2.5 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                            </svg>Điểm danh
+                        </button>
+
+ <!-- Dropdown menu -->
+                        <div id="dropdownLeft" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLeftButton">
+                                <li>
+                                    <form asp-action="DiemDanh" class="diemDanhForm block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" method="post" data-mahd="@i.MaHoatDong">
+                                        <div>
+                                            <input type="hidden" name="mahd" value="@i.MaHoatDong" />
+                                            <input type="hidden" class="kinhdo" name="kinhdo" />
+                                            <input type="hidden" class="vido" name="vido" />
                                         </div>
-                                        <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 register-btn">Điểm Danh</button>
+                                        <button type="submit">GPS</button>
                                     </form>
-                                }
-                            }
+                                </li>
+                                <li>
+                                    <a href="/DiemDanh" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">FaceID</a>
+                                </li>
+                            </ul>
+                        </div>
+        }
+    }
+                    </td>
 
-                        </td>
+                    <style>
+                        table {
+                            table-layout: auto; /* Điều chỉnh chiều rộng của bảng tự động */
+                            width: 100%;
+                            overflow: hidden; /* Ẩn nội dung tràn ra ngoài */
+                        }
+
+                        th, td {
+                            white-space: nowrap; /* Ngừng xuống dòng */
+                            overflow: hidden; /* Ẩn phần vượt quá */
+                            text-overflow: ellipsis; /* Hiển thị dấu ba chấm nếu nội dung bị cắt */
+                        }
+
+                        td {
+                            overflow-x: auto; /* Hiển thị thanh cuộn nếu nội dung dài */
+                        }
+                    </style>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            // Kiểm tra điều kiện và thay thế các nút
+                            var diemDanhButtons = document.querySelectorAll('.diemDanhButton');
+                            var cancelButtons = document.querySelectorAll('.cancelButton');
+
+                            diemDanhButtons.forEach(function (button) {
+                                var hoatDongId = button.getAttribute('data-hoatdongid');
+                                var cancelButton = document.querySelector('.cancelForm[asp-route-hoatDongId="' + hoatDongId + '"]');
+
+                                // Kiểm tra nếu hoạt động đã kết thúc và người dùng chưa tham gia
+                                if (button && cancelButton) {
+                                    button.style.display = 'none'; // Ẩn nút điểm danh nếu đã hủy
+                                    cancelButton.style.display = 'inline-block'; // Hiển thị nút hủy
+                                } else {
+                                    cancelButton.style.display = 'none'; // Ẩn nút hủy
+                                    button.style.display = 'inline-block'; // Hiển thị nút điểm danh
+                                }
+                            });
+                        });
+                    </script>
+
+
                     }
                     @if (User.IsInRole("Administrators"))
                     {
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <a asp-action="Edit" asp-route-id="@i.MaDangKy">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@i.MaDangKy">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@i.MaDangKy">Delete</a>
-                        </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <a asp-action="Edit" asp-route-id="@i.MaDangKy">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@i.MaDangKy">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@i.MaDangKy">Delete</a>
+                    </td>
                     }
                 </tr>
                 count++;
             }
 
-        </tbody>
-    </table>
-</div>
-@if (!User.IsInRole("Administrators"))
+            </tbody>
+        </table>
+    </div>
+    @if (!User.IsInRole("Administrators"))
 {
     <!-- Modal -->
     <div id="warningModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
@@ -223,70 +278,69 @@
 
 
 
-<nav aria-label="Page navigation" class="mt-3">
-    <ul class="ml-3 pagination">
-        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
-        </li>
-        @for (int i = 1; i <= Model.TotalPages; i++)
+    <nav aria-label="Page navigation" class="mt-3">
+        <ul class="ml-3 pagination">
+            <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
         {
             <li class="page-item @(i == Model.PageIndex ? "active" : "")">
                 <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
             </li>
         }
-        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
-        </li>
-    </ul>
-</nav>
-<style>
+            <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <style>
 
-    /* Form */
-    .search-form {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-
-    .search-container {
-        position: relative;
-        width: 100%; /* Thanh tìm kiếm sẽ căng toàn bộ chiều rộng của phần tử cha */
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 10px 20px;
-        border: 1px solid #38b7fd;
-        border-radius: 25px;
-        font-size: 16px;
-        outline: none;
-        background-color: transparent;
-    }
-
-    .search-button {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        padding-bottom: 10px;
-    }
-
-        .search-button i {
-            font-size: 20px;
+        /* Form */
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
         }
 
-    @@media (min-width: 640px) {
         .search-container {
-            width: 700px;
+            position: relative;
+            width: 100%; /* Thanh tìm kiếm sẽ căng toàn bộ chiều rộng của phần tử cha */
         }
 
         .search-input {
-            width: 700px; /* Đặt lại kích thước cho trường hợp màn hình lớn hơn 640px */
-            min-width: 200px; /* Đặt kích thước tối thiểu cho ô tìm kiếm */
+            width: 100%;
+            padding: 10px 20px;
+            border: 1px solid #38b7fd;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            background-color: transparent;
         }
-    }
 
-</style>
+        .search-button {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding-bottom: 10px;
+        }
+
+            .search-button i {
+                font-size: 20px;
+            }
+
+        @@media (min-width: 640px) {
+            .search-container {
+                width: 700px;
+            }
+
+            .search-input {
+                width: 700px; /* Đặt lại kích thước cho trường hợp màn hình lớn hơn 640px */
+                min-width: 200px; /* Đặt kích thước tối thiểu cho ô tìm kiếm */
+            }
+        }
+    </style>

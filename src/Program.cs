@@ -31,7 +31,7 @@ builder.Services.AddSignalR();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.Name = "AspNetCore.Identity.Application";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);  // Thời gian sống của phiên
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);  // Thời gian sống của phiên
     options.SlidingExpiration = true;
 
     // Cấu hình khi phiên hết hạn (redirect và thông báo lỗi)
@@ -50,9 +50,9 @@ builder.Services.ConfigureApplicationCookie(options =>
         OnRedirectToAccessDenied = context =>
         {
             // Xử lý khi người dùng không có quyền truy cập
-            if (context.Request.Path != "/Account/AccessDenied")
+            if (context.Request.Path != "/Identity/Account/AccessDenied")
             {
-                context.Response.Redirect("/Account/AccessDenied");
+                context.Response.Redirect("/Identity/Account/AccessDenied");
             }
             return Task.CompletedTask;
         }
@@ -61,7 +61,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 // Add session services
 builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian sống của Session
+    options.IdleTimeout = TimeSpan.FromMinutes(60); // Thời gian sống của Session
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true; // Đánh dấu cookie session là thiết yếu cho ứng dụng
 });

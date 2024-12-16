@@ -37,24 +37,30 @@ namespace Manage_CLB_HTSV.Controllers
 
         public async Task<IActionResult> UpdateTrangThaiHoatDong()
         {
+            // Lấy tất cả các hoạt động chưa kết thúc
             var hoatDongs = await _context.HoatDong
                 .Where(hd => hd.TrangThai != "Đã kết thúc")
                 .ToListAsync(); // Truy xuất dữ liệu từ CSDL
 
-            var currentTime = TimeZoneHelper.GetVietNamTime(DateTime.UtcNow).Date; // Chỉ lấy phần ngày
+            var currentTime = TimeZoneHelper.GetVietNamTime(DateTime.UtcNow); // Lấy thời gian hiện tại tại Việt Nam
 
             foreach (var hoatDong in hoatDongs)
             {
-                if (hoatDong.ThoiGian.Date < currentTime)
+                // Kiểm tra nếu thời gian hoạt động đã qua so với thời gian hiện tại
+                if (hoatDong.ThoiGian < currentTime)
                 {
-                    hoatDong.TrangThai = "Đã kết thúc";
+                    hoatDong.TrangThai = "Đã kết thúc"; // Cập nhật trạng thái thành "Đã kết thúc"
                 }
             }
 
+            // Cập nhật tất cả các hoạt động đã thay đổi trạng thái
             _context.UpdateRange(hoatDongs);
             await _context.SaveChangesAsync();
+
+            // Quay lại trang Index sau khi cập nhật
             return RedirectToAction(nameof(Index));
         }
+
 
         public string GetIDFromEmail(string email)
         {
@@ -175,7 +181,8 @@ namespace Manage_CLB_HTSV.Controllers
 
             // Sắp xếp theo ThoiGian gần nhất lên đầu tiên
             hoatdongQuery = hoatdongQuery
-                .OrderBy(hd => hd.ThoiGian); // Thay đổi thành OrderByDescending nếu muốn sắp xếp theo thứ tự giảm dần
+                .OrderBy(hd => hd.TrangThai != "Sắp diễn ra")
+                .ThenBy(hd => hd.ThoiGian); // Thay đổi thành OrderByDescending nếu muốn sắp xếp theo thứ tự giảm dần
 
             int pageSize = 4;
 
