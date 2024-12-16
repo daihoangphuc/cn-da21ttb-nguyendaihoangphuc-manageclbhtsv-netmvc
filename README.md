@@ -17,3 +17,15 @@ Website này được xây dựng để hỗ trợ quản lý các hoạt độn
 - **Frontend**: HTML, CSS (Bootstrap), JavaScript
 - **Database**: Microsoft SQL Server
 - **Các công nghệ khác**: Entity Framework
+
+## Certificate Setup
+
+Before running the application, you need to place your SSL/TLS certificates in the `src/Certificates/` directory:
+
+Required files:
+- `certificate.crt`
+- `private.key`
+- `your_certificate.pfx`
+
+These files are not included in the repository for security reasons.
+Contact your system administrator to obtain the necessary certificates.
