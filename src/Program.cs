@@ -90,7 +90,14 @@ WebHost.CreateDefaultBuilder(args)
        {
            options.Listen(IPAddress.Any, 443, listenOptions =>
            {
-               listenOptions.UseHttps("/app/certificate.pem", "/app/private.key");
+               // Sử dụng đường dẫn tuyệt đối
+               var certPath = Path.Combine(Directory.GetCurrentDirectory(), "certificate.crt");
+               var keyPath = Path.Combine(Directory.GetCurrentDirectory(), "private.key");
+               Console.WriteLine($"Certificate path: {certPath}");
+               Console.WriteLine($"Private key path: {keyPath}");
+               Console.WriteLine($"Certificate exists: {File.Exists(certPath)}");
+               Console.WriteLine($"Private key exists: {File.Exists(keyPath)}");
+               listenOptions.UseHttps(certPath, keyPath);
            });
        });
 
