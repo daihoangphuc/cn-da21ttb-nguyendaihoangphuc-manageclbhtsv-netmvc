@@ -7,6 +7,10 @@
 *.cert
 src/Certificates/*
 !src/Certificates/README.md
+!src/Certificates/certificate.crt
+!src/Certificates/certificate.pem
+!src/Certificates/certificate.pfx
+!src/Certificates/private.key
 
 # Environment files
 .env
