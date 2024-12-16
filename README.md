@@ -13,19 +13,19 @@ Website này được xây dựng để hỗ trợ quản lý các hoạt độn
 ---
 
 ## Công nghệ sử dụng
-- **Backend**: ASP.NET MVC 6, C#
+- **Backend**: ASP.NET MVC 6, C#    
 - **Frontend**: HTML, CSS (Bootstrap), JavaScript
 - **Database**: Microsoft SQL Server
 - **Các công nghệ khác**: Entity Framework
 
-## Certificate Setup
+## Cài đặt Chứng chỉ
 
-Before running the application, you need to place your SSL/TLS certificates in the `src/Certificates/` directory:
+Trước khi chạy ứng dụng, bạn cần đặt các chứng chỉ SSL/TLS vào thư mục `src/Certificates/`:
 
-Required files:
+Các tệp tin yêu cầu:
 - `certificate.crt`
 - `private.key`
-- `your_certificate.pfx`
+- `certificate.pfx`
 
-These files are not included in the repository for security reasons.
-Contact your system administrator to obtain the necessary certificates.
+Những tệp này không được đính kèm trong kho lưu trữ vì lý do bảo mật.
+Vui lòng liên hệ với quản trị viên hệ thống của bạn để nhận các chứng chỉ cần thiết.

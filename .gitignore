@@ -5,8 +5,8 @@
 *.pem
 *.p12
 *.cert
-src/Certificates/
-**/Certificates/
+src/Certificates/*
+!src/Certificates/README.md
 
 # Environment files
 .env
