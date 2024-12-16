@@ -34,7 +34,7 @@
                 <td>
                     <form asp-action="Delete" method="post">
                         <input type="hidden" name="id" value="@role.Id" />
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this role?')">Delete</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa role?')">Delete</button>
                         @Html.AntiForgeryToken()
                     </form>
                 </td>
