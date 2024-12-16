@@ -90,7 +90,7 @@ WebHost.CreateDefaultBuilder(args)
        {
            options.Listen(IPAddress.Any, 443, listenOptions =>
            {
-               listenOptions.UseHttps("/app/certificate.crt", "/app/private.key");
+               listenOptions.UseHttps("/app/certificate.pem", "/app/private.key");
            });
        });
 
