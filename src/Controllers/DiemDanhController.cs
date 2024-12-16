@@ -16,7 +16,7 @@ namespace Manage_CLB_HTSV.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrators")]
+        // [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> Index()
         {
             var today = DateTime.Today.Date;
@@ -27,7 +27,7 @@ namespace Manage_CLB_HTSV.Controllers
             return View(activities);
         }
         [HttpPost]
-        [Authorize(Roles = "Administrators")]
+        // [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> RecordAttendance([FromBody] AttendanceRecord model)
         {
             if (!ModelState.IsValid)
