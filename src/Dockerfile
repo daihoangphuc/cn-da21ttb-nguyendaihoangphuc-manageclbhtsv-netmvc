@@ -27,7 +27,7 @@ RUN openssl pkcs12 -in /https/aspnetapp.pfx -out /https/aspnetapp.pem -nodes -pa
 # Step 5: Install the application
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY src/ . # Cập nhật đường dẫn để sao chép mã nguồn từ thư mục `src`
+COPY . .
 
 # Declare ARG variables to pass from GitHub secrets during the Docker images build process
 ARG DB_PASSWORD2
@@ -61,7 +61,7 @@ RUN dotnet publish src/Manage-CLB-HTSV.generated.sln -c Release -o /app/publish
 # Step 8: Build the final application
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish . # Copy files từ thư mục publish
+COPY --from=publish /app/publish ./
 COPY --from=certs /https/aspnetapp.pem /https/aspnetapp.pem
 
 ENTRYPOINT ["dotnet", "Manage_CLB_HTSV.dll"]
