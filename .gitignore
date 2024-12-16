@@ -8,8 +8,7 @@
 src/Certificates/*
 !src/Certificates/README.md
 !src/Certificates/certificate.crt
-!src/Certificates/certificate.pem
-!src/Certificates/certificate.pfx
+!src/Certificates/your_certificate.pem
 !src/Certificates/private.key
 
 # Environment files
