@@ -31,39 +31,45 @@ builder.Services.AddSignalR();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.Name = "AspNetCore.Identity.Application";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);  // Thời gian sống của phiên
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     options.SlidingExpiration = true;
-
-    // Cấu hình khi phiên hết hạn (redirect và thông báo lỗi)
+    options.LoginPath = "/Identity/Account/Login";
+    options.LogoutPath = "/Identity/Account/Logout";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    
+    // Xóa phần redirect cũ
     options.Events = new CookieAuthenticationEvents
     {
         OnRedirectToLogin = context =>
         {
-            // Chuyển hướng đến trang đăng nhập khi hết hạn session
-            if (context.Request.Path != "/Identity/Account/Login" &&
-                !context.Request.Path.StartsWithSegments("/Identity/Account"))
+            // Chỉ redirect khi user thực sự cần đăng nhập
+            if (context.Request.Path.StartsWithSegments("/Identity/Account/Login"))
             {
-                context.Response.Redirect("/Identity/Account/Login");
+                return Task.CompletedTask;
             }
-            return Task.CompletedTask;
-        },
-        OnRedirectToAccessDenied = context =>
-        {
-            // Xử lý khi người dùng không có quyền truy cập
-            if (context.Request.Path != "/Identity/Account/AccessDenied")
+            
+            if (!context.HttpContext.User.Identity.IsAuthenticated)
             {
-                context.Response.Redirect("/Identity/Account/AccessDenied");
+                context.Response.Redirect(options.LoginPath);
             }
             return Task.CompletedTask;
         }
     };
 });
 
-// Add session services
+// Sửa lại cấu hình session
 builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromMinutes(60); // Thời gian sống của Session
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
     options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true; // Đánh dấu cookie session là thiết yếu cho ứng dụng
+    options.Cookie.IsEssential = true;
+    options.Cookie.Name = ".HTSV.Session";  // Đặt tên riêng cho session cookie
+});
+
+// Thêm cấu hình cookie policy
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => false; // Không yêu cầu consent cho cookies
+    options.MinimumSameSitePolicy = SameSiteMode.Lax;
 });
 
 // Thiết lập giấy phép cho EPPlus
@@ -109,15 +115,13 @@ app.UseExceptionHandler("/Home/Error");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-
+app.UseCookiePolicy();
 app.UseSession();
-app.UseMiddleware<SessionTimeoutMiddleware>();
+// app.UseMiddleware<SessionTimeoutMiddleware>(); // Tạm comment lại middleware này
 
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.UseEndpoints(endpoints =>
 {
