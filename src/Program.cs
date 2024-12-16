@@ -90,14 +90,7 @@ WebHost.CreateDefaultBuilder(args)
        {
            options.Listen(IPAddress.Any, 443, listenOptions =>
            {
-               // Sử dụng đường dẫn tuyệt đối
-               var certPath = Path.Combine(Directory.GetCurrentDirectory(), "certificate.crt");
-               var keyPath = Path.Combine(Directory.GetCurrentDirectory(), "private.key");
-               Console.WriteLine($"Certificate path: {certPath}");
-               Console.WriteLine($"Private key path: {keyPath}");
-               Console.WriteLine($"Certificate exists: {File.Exists(certPath)}");
-               Console.WriteLine($"Private key exists: {File.Exists(keyPath)}");
-               listenOptions.UseHttps(certPath, keyPath);
+               listenOptions.UseHttps("/app/certificate.crt", "/app/private.key");
            });
        });
 
@@ -133,22 +126,26 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
 
     // Route cho action Search
     endpoints.MapControllerRoute(
         name: "newsSearch",
         pattern: "News/Search",
-        defaults: new { controller = "TinTucs", action = "Search" });
+        defaults: new { controller = "TinTucs", action = "Search" }
+    );
     // Route cho action Search
     endpoints.MapControllerRoute(
         name: "sinhVienSearch",
         pattern: "SinhViens/Search",
-        defaults: new { controller = "SinhViens", action = "Search" });
+        defaults: new { controller = "SinhViens", action = "Search" }
+    );
     endpoints.MapControllerRoute(
        name: "downloadMinhChung",
        pattern: "ThamGiaHoatDongs/DownloadMinhChung/{filePath}",
-       defaults: new { controller = "ThamGiaHoatDongs", action = "DownloadMinhChung" });
+       defaults: new { controller = "ThamGiaHoatDongs", action = "DownloadMinhChung" }
+    );
     endpoints.MapHub<ChatHub>("/chatHub");
 });
 
