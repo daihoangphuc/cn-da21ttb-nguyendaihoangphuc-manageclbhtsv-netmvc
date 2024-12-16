@@ -5,58 +5,69 @@ EXPOSE 80
 EXPOSE 443
 
 # Step 2: Add certificate and private key files to the container
-COPY ["Certificates/certificate.crt", "Certificates/private.key", "./"]
+COPY Certificates/certificate.crt /app
+COPY Certificates/private.key /app
+COPY Certificates/your_certificate.pem /app
 
 # Add this after copying certificates
-RUN chmod 600 private.key && \
-    chmod 644 certificate.crt && \
-    # Verify files exist
-    ls -la certificate.crt private.key
+RUN chmod 600 /app/private.key && \
+    chmod 644 /app/certificate.crt && \
+    chmod 600 /app/your_certificate.pem
 
 # Step 3: Set up HTTPS for Kestrel
 ENV ASPNETCORE_URLS=http://+:80;https://+:443
 RUN sed -i 's/TLSv1.2/TLSv1.0 TLSv1.1 TLSv1.2/g' /etc/ssl/openssl.cnf
+
+# Step 4: Create a new stage to execute dotnet dev-certs commands
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS certs
+WORKDIR /app
+
+# Declare ARG to pass variables from the build command
+ARG PFX_PASSWORD
+
+# Use the ARG variable with the dotnet dev-certs command
+RUN mkdir -p /https/ && \
+    dotnet dev-certs https -ep /https/aspnetapp.pfx -p $PFX_PASSWORD && \
+    openssl pkcs12 -in /https/aspnetapp.pfx -out /https/aspnetapp.pem -nodes -password pass:$PFX_PASSWORD
 
 # Step 5: Install the application
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY . .
 
-# Declare ARG variables
+# Declare ARG variables to pass from GitHub secrets during the Docker images build process
 ARG DB_PASSWORD2
 ARG SMTP_PASSWORD
 ARG PFX_PASSWORD
 ARG MICROSOFT_CLIENT_ID
 ARG MICROSOFT_CLIENT_SECRET
 
-# Set environment variables
+# Step 6: Set environment variables at runtime
 ENV DB_PASSWORD2=$DB_PASSWORD2
 ENV SMTP_PASSWORD=$SMTP_PASSWORD
 ENV PFX_PASSWORD=$PFX_PASSWORD
 ENV MICROSOFT_CLIENT_ID=$MICROSOFT_CLIENT_ID
 ENV MICROSOFT_CLIENT_SECRET=$MICROSOFT_CLIENT_SECRET
 
-# Replace secrets in appsettings.json
+# Replace the ${secrets. } string in appsettings.json with the value of the environment variable
 RUN sed -i "s|\${secrets.DB_PASSWORD2}|$DB_PASSWORD2|g" appsettings.json
 RUN sed -i "s|\${secrets.SMTP_PASSWORD}|$SMTP_PASSWORD|g" appsettings.json
 RUN sed -i "s|\${secrets.PFX_PASSWORD}|$PFX_PASSWORD|g" appsettings.json
 RUN sed -i "s|\${secrets.MICROSOFT_CLIENT_ID}|$MICROSOFT_CLIENT_ID|g" appsettings.json
 RUN sed -i "s|\${secrets.MICROSOFT_CLIENT_SECRET}|$MICROSOFT_CLIENT_SECRET|g" appsettings.json
 
-# Build application
+# Restore and build the application
 RUN dotnet restore Manage-CLB-HTSV.generated.sln
 RUN dotnet build Manage-CLB-HTSV.generated.sln -c Release -o /app/build
 
-# Publish application
+# Step 7: Publish the application
 FROM build AS publish
 RUN dotnet publish Manage-CLB-HTSV.generated.sln -c Release -o /app/publish
 
-# Final stage
+# Step 8: Build the final application
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish ./
-# Copy certificates from base stage
-COPY --from=base /app/certificate.crt ./
-COPY --from=base /app/private.key ./
+COPY --from=certs /https/aspnetapp.pem /https/aspnetapp.pem
 
 ENTRYPOINT ["dotnet", "Manage_CLB_HTSV.dll"]
