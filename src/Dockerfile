@@ -7,13 +7,11 @@ EXPOSE 443
 # Step 2: Add certificate and private key files to the container
 COPY Certificates/certificate.crt /app/certificate.crt
 COPY Certificates/private.key /app/private.key
-COPY Certificates/certificate.pfx /app/certificate.pfx
-COPY Certificates/certificate.pem /app/certificate.pem
+COPY Certificates/your_certificate.pem /app/certificate.pem
 
 # Add this after copying certificates
 RUN chmod 600 /app/private.key && \
     chmod 644 /app/certificate.crt && \
-    chmod 600 /app/certificate.pfx && \
     chmod 600 /app/certificate.pem
 
 # Step 3: Set up HTTPS for Kestrel
