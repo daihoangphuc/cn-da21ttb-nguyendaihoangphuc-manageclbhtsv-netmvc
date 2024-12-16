@@ -55,5 +55,8 @@ RUN dotnet publish Manage-CLB-HTSV.generated.sln -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish ./
+# Copy certificates from base stage
+COPY --from=base /app/certificate.crt ./
+COPY --from=base /app/private.key ./
 
 ENTRYPOINT ["dotnet", "Manage_CLB_HTSV.dll"]
