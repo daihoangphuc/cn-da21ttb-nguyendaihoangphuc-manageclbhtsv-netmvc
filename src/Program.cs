@@ -82,17 +82,14 @@ builder.Services.AddAuthentication()
         options.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"];
     });
 
-
-
-WebHost.CreateDefaultBuilder(args)
-       .UseStartup<Program>()
-       .UseKestrel(options =>
-       {
-           options.Listen(IPAddress.Any, 443, listenOptions =>
-           {
-               listenOptions.UseHttps("/app/certificate.crt", "/app/private.key");
-           });
-       });
+// Thêm cấu hình Kestrel từ appsettings.json
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ConfigureHttpsDefaults(listenOptions =>
+    {
+        listenOptions.AllowAnyClientCertificate();
+    });
+});
 
 var app = builder.Build();
 
