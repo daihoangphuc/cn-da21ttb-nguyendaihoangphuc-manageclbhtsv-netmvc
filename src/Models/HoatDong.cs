@@ -31,18 +31,18 @@ namespace Manage_CLB_HTSV.Models
         [DisplayName("Năm Học")]
         public int NamHoc { get; set; }
 
-        [DisplayName("Hình Ảnh")]
-        public string? HinhAnh { get; set; }
+/*        [DisplayName("Hình Ảnh")]
+        public string? HinhAnh { get; set; }*/
 
         [StringLength(50)]
         [DisplayName("Trạng Thái")]
         public string? TrangThai { get; set; }
 
-        [DisplayName("Đã Đăng Kí")]
+/*        [DisplayName("Đã Đăng Kí")]
         public bool DaDangKi { get; set; }
 
         [DisplayName("Đã Tham Gia")]
-        public bool DaThamGia { get; set; }
+        public bool DaThamGia { get; set; }*/
 
         [DisplayName("Minh Chứng")]
         public string? MinhChung { get; set; }
