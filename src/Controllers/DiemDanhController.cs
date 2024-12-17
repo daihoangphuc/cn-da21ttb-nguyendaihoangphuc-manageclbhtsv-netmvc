@@ -14,20 +14,34 @@ namespace Manage_CLB_HTSV.Controllers
         {
             _context = context;
         }
-
         [HttpGet]
-        // [Authorize(Roles = "Administrators")]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var today = DateTime.Today.Date;
+
+            // Lấy mã số sinh viên từ User.Identity
+            var Mssv = User.Identity.Name.Split('@')[0];
+
+            // Lấy danh sách mã hoạt động mà người dùng đã đăng ký
+            var hoatdong = await _context.DangKyHoatDong
+                .Include(s => s.HoatDong)
+                .Include(s => s.SinhVien)
+                .Where(dk => dk.MaSV == Mssv && dk.TrangThaiDangKy == true && dk.HoatDong.ThoiGian.Date == today)
+                .Select(dkhd => dkhd.MaHoatDong)
+                .ToListAsync();
+
+            // Lấy danh sách hoạt động có mã hoạt động trong `hoatdong`
             var activities = await _context.HoatDong
-                .Where(h => h.ThoiGian.Date == today)
+                .Where(h => hoatdong.Contains(h.MaHoatDong) && h.ThoiGian.Date == today)
                 .ToListAsync();
 
             return View(activities);
         }
+
+
         [HttpPost]
-        // [Authorize(Roles = "Administrators")]
+        [Authorize]
         public async Task<IActionResult> RecordAttendance([FromBody] AttendanceRecord model)
         {
             if (!ModelState.IsValid)
