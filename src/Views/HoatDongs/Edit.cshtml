@@ -46,11 +46,11 @@
                 <input asp-for="NamHoc" class="form-control" />
                 <span asp-validation-for="NamHoc" class="text-danger"></span>
             </div>
-            <div class="form-group">
+@*            <div class="form-group">
                 <label asp-for="HinhAnh" class="control-label"></label>
                 <input asp-for="HinhAnh" class="form-control" />
                 <span asp-validation-for="HinhAnh" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="TrangThai" class="control-label"></label>
                 <select asp-for="TrangThai" class="form-control">
@@ -60,7 +60,7 @@
                 <span asp-validation-for="TrangThai" class="text-danger"></span>
             </div>
 
-            <div class="form-group form-check">
+@*            <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="DaDangKi" /> @Html.DisplayNameFor(model => model.DaDangKi)
                 </label>
@@ -69,7 +69,7 @@
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="DaThamGia" /> @Html.DisplayNameFor(model => model.DaThamGia)
                 </label>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="MinhChung" class="control-label"></label>
                 <input asp-for="MinhChung" class="form-control" />
