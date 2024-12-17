@@ -64,6 +64,14 @@ namespace Manage_CLB_HTSV.Controllers
             {
                 return Json(new { success = false, message = $"Người dùng {mssv} chưa đăng ký hoạt động {model.MaHoatDong}." });
             }
+            else
+            {
+                var currentMssv = User.Identity.Name.Split('@')[0];
+                if (currentMssv != mssv)
+                {
+                    return Json(new { success = false, message = "Không thể điểm danh cho người khác." });
+                }
+            }
 
             var existingRecords = await _context.ThamGiaHoatDong.AsNoTracking()
                 .Where(tg => tg.MaHoatDong == dangkihoatdong.MaHoatDong && tg.MaDangKy == dangkihoatdong.MaDangKy && tg.MaSV == mssv)

@@ -14480,22 +14480,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\userimages\980fc182-22f9-44f0-826d-9085ce37114f.png))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\userimages\b785cf64-a5f4-474f-aecc-1ea05c0b5551.png))">
-      <SourceType>Package</SourceType>
-      <SourceId>Manage_CLB_HTSV</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/Manage_CLB_HTSV</BasePath>
-      <RelativePath>userimages/b785cf64-a5f4-474f-aecc-1ea05c0b5551.png</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\userimages\b785cf64-a5f4-474f-aecc-1ea05c0b5551.png))</OriginalItemSpec>
-    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\userimages\c7c9095c-43b8-4deb-8b8d-0d706aae2728.png))">
       <SourceType>Package</SourceType>
       <SourceId>Manage_CLB_HTSV</SourceId>

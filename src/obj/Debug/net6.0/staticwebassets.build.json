@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "r2vu2phCR9/5X2X+MuoSh6eFb0OiG3HHeoNzsSXF5TU=",
+  "Hash": "rNwqijUvbJWeFFR6Fg41tKH9jURmyNdZ2i/7mrtjc6s=",
   "Source": "Manage_CLB_HTSV",
   "BasePath": "_content/Manage_CLB_HTSV",
   "Mode": "Default",
@@ -18369,25 +18369,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\userimages\\980fc182-22f9-44f0-826d-9085ce37114f.png"
-    },
-    {
-      "Identity": "D:\\HocKy7\\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\\src\\wwwroot\\userimages\\b785cf64-a5f4-474f-aecc-1ea05c0b5551.png",
-      "SourceId": "Manage_CLB_HTSV",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\HocKy7\\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\\src\\wwwroot\\",
-      "BasePath": "_content/Manage_CLB_HTSV",
-      "RelativePath": "userimages/b785cf64-a5f4-474f-aecc-1ea05c0b5551.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\userimages\\b785cf64-a5f4-474f-aecc-1ea05c0b5551.png"
     },
     {
       "Identity": "D:\\HocKy7\\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\\src\\wwwroot\\userimages\\c7c9095c-43b8-4deb-8b8d-0d706aae2728.png",
