@@ -44,8 +44,8 @@ namespace Manage_CLB_HTSV.Models
         [DisplayName("Đã Tham Gia")]
         public bool DaThamGia { get; set; }*/
 
-        [DisplayName("Minh Chứng")]
-        public string? MinhChung { get; set; }
+/*        [DisplayName("Minh Chứng")]
+        public string? MinhChung { get; set; }*/
 
         [DisplayName("Vĩ Độ")]
         public double? Latitude { get; set; }

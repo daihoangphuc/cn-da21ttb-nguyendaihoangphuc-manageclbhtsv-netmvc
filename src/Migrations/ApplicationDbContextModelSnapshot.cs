@@ -86,9 +86,6 @@ namespace Manage_CLB_HTSV.Migrations
                     b.Property<double?>("Longitude")
                         .HasColumnType("float");
 
-                    b.Property<string>("MinhChung")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("MoTa")
                         .HasColumnType("nvarchar(max)");
 
