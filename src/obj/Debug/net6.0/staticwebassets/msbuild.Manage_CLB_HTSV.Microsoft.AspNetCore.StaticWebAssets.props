@@ -13920,6 +13920,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\messages\chatHistory.txt))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\minhchunghd\274a7586-7f85-41a7-8a31-ae6aa584fdf3_5-2024 DS Thanh vien CLB HTSV hoc ky II.pdf))">
+      <SourceType>Package</SourceType>
+      <SourceId>Manage_CLB_HTSV</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Manage_CLB_HTSV</BasePath>
+      <RelativePath>minhchunghd/274a7586-7f85-41a7-8a31-ae6aa584fdf3_5-2024 DS Thanh vien CLB HTSV hoc ky II.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\minhchunghd\274a7586-7f85-41a7-8a31-ae6aa584fdf3_5-2024 DS Thanh vien CLB HTSV hoc ky II.pdf))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\minhchunghd\45509f44.xlsx))">
       <SourceType>Package</SourceType>
       <SourceId>Manage_CLB_HTSV</SourceId>
