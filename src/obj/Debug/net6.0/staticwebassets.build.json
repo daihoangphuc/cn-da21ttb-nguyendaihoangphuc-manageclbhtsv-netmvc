@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "rNwqijUvbJWeFFR6Fg41tKH9jURmyNdZ2i/7mrtjc6s=",
+  "Hash": "IKYctVI+IbWoqnMJXNEdXUTdbqiI59/E9b8j2PpOaAI=",
   "Source": "Manage_CLB_HTSV",
   "BasePath": "_content/Manage_CLB_HTSV",
   "Mode": "Default",
@@ -17704,6 +17704,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\messages\\chatHistory.txt"
+    },
+    {
+      "Identity": "D:\\HocKy7\\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\\src\\wwwroot\\minhchunghd\\274a7586-7f85-41a7-8a31-ae6aa584fdf3_5-2024 DS Thanh vien CLB HTSV hoc ky II.pdf",
+      "SourceId": "Manage_CLB_HTSV",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\HocKy7\\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\\src\\wwwroot\\",
+      "BasePath": "_content/Manage_CLB_HTSV",
+      "RelativePath": "minhchunghd/274a7586-7f85-41a7-8a31-ae6aa584fdf3_5-2024 DS Thanh vien CLB HTSV hoc ky II.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\minhchunghd\\274a7586-7f85-41a7-8a31-ae6aa584fdf3_5-2024 DS Thanh vien CLB HTSV hoc ky II.pdf"
     },
     {
       "Identity": "D:\\HocKy7\\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\\src\\wwwroot\\minhchunghd\\45509f44.xlsx",
