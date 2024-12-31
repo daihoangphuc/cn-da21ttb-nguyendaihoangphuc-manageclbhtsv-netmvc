@@ -1,4 +1,4 @@
-﻿using Manage_CLB_HTSV.Data;
+using Manage_CLB_HTSV.Data;
 using Manage_CLB_HTSV.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -224,31 +224,10 @@ namespace Manage_CLB_HTSV.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrators")]
-        public async Task<IActionResult> Create([Bind("MaHoatDong,TenHoatDong,MoTa,ThoiGian,DiaDiem,HocKy,NamHoc,HinhAnh,TrangThai")] HoatDong hoatDong, string Toado)
+        public async Task<IActionResult> Create([Bind("MaHoatDong,TenHoatDong,MoTa,ThoiGian,DiaDiem,HocKy,NamHoc,HinhAnh,TrangThai,Latitude,Longitude")] HoatDong hoatDong)
         {
             if (ModelState.IsValid)
             {
-                // Tách tọa độ từ chuỗi
-                if (!string.IsNullOrEmpty(Toado))
-                {
-                    var coords = Toado.Split(',');
-                    if (coords.Length == 2 &&
-                        double.TryParse(coords[0], NumberStyles.Any, CultureInfo.InvariantCulture, out double latitude) &&
-                        double.TryParse(coords[1], NumberStyles.Any, CultureInfo.InvariantCulture, out double longitude))
-                    {
-                        hoatDong.Latitude = latitude;
-                        hoatDong.Longitude = longitude;
-                    }
-                    else
-                    {                    
-                        return View(hoatDong);
-                    }
-                }
-                else
-                {
-                    return View(hoatDong);
-                }
-
                 hoatDong.MaHoatDong = "HD" + TimeZoneHelper.GetVietNamTime(DateTime.UtcNow).ToString("yyyyMMddHHmmssfff");
                 hoatDong.TrangThai = "Sắp diễn ra";
 

@@ -1,4 +1,4 @@
-﻿@model Manage_CLB_HTSV.Models.HoatDong
+@model Manage_CLB_HTSV.Models.HoatDong
 
 @{
     if (User.IsInRole("Administrators"))
@@ -69,8 +69,14 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Tọa độ</label>
-                        <input required name="Toado" class="form-control" placeholder="Nhập tọa độ vị trí hoạt động (vĩ độ, kinh độ)" />
-                        <span class="text-danger"></span>
+                        <div class="input-group">
+                            <input type="text" id="coordinates" class="form-control" placeholder="Vĩ độ, Kinh độ" />
+                            <input type="hidden" asp-for="Latitude" id="latitude" />
+                            <input type="hidden" asp-for="Longitude" id="longitude" />
+                            <span class="input-group-text" style="cursor: pointer;" onclick="getLocation()">
+                                <i class="fa-solid fa-location-crosshairs"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,25 +93,48 @@
     <a asp-action="Index">Quay lại</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                };
 
-@*
-                    <div class="form-group">
-                        <label asp-for="HinhAnh" class="control-label"></label>
-                        <input asp-for="HinhAnh" class="form-control" />
-                        <span asp-validation-for="HinhAnh" class="text-danger"></span>
-                    </div>
-                <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DaDangKi" /> @Html.DisplayNameFor(model => model.DaDangKi)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DaThamGia" /> @Html.DisplayNameFor(model => model.DaThamGia)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="MinhChung" class="control-label"></label>
-                <input asp-for="MinhChung" class="form-control" />
-                <span asp-validation-for="MinhChung" class="text-danger"></span>
-            </div> *@
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude.toFixed(6);
+                        const lng = position.coords.longitude.toFixed(6);
+                        document.getElementById('coordinates').value = `${lat}, ${lng}`;
+                        document.getElementById('latitude').value = lat;
+                        document.getElementById('longitude').value = lng;
+                    },
+                    function(error) {
+                        let errorMessage;
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage = "Bạn đã từ chối cho phép truy cập vị trí.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage = "Không thể lấy được vị trí hiện tại.";
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage = "Quá thời gian chờ lấy vị trí.";
+                                break;
+                            default:
+                                errorMessage = "Lỗi không xác định: " + error.message;
+                        }
+                        alert(errorMessage);
+                    },
+                    options
+                );
+            } else {
+                alert("Trình duyệt của bạn không hỗ trợ định vị GPS");
+            }
+        }
+    </script>
+}
