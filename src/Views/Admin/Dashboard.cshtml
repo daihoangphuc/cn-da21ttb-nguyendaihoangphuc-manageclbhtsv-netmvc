@@ -1,0 +1,207 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+    <div class="mb-1 w-full">
+        <div class="">
+            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">Dashboard</h1>
+        </div>
+    </div>
+</div>
+
+<div class="pt-6 px-4">
+    <!-- Card Section -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Sinh viên Card -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500">
+            <div class="flex items-center">
+                <div class="inline-flex flex-shrink-0 justify-center items-center w-12 h-12 text-blue-500 bg-blue-100 rounded-lg mr-3">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-sm font-medium text-gray-500 mb-1">Tổng số sinh viên</div>
+                    <div class="text-xl font-semibold text-gray-900">@ViewBag.TotalStudents</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hoạt động Card -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-green-500">
+            <div class="flex items-center">
+                <div class="inline-flex flex-shrink-0 justify-center items-center w-12 h-12 text-green-500 bg-green-100 rounded-lg mr-3">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-sm font-medium text-gray-500 mb-1">Hoạt động</div>
+                    <div class="text-xl font-semibold text-gray-900">@ViewBag.TotalActivities</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tin tức Card -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-yellow-500">
+            <div class="flex items-center">
+                <div class="inline-flex flex-shrink-0 justify-center items-center w-12 h-12 text-yellow-500 bg-yellow-100 rounded-lg mr-3">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+                        <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-sm font-medium text-gray-500 mb-1">Tin tức</div>
+                    <div class="text-xl font-semibold text-gray-900">@ViewBag.TotalNews</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tổng thu Card -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-purple-500">
+            <div class="flex items-center">
+                <div class="inline-flex flex-shrink-0 justify-center items-center w-12 h-12 text-purple-500 bg-purple-100 rounded-lg mr-3">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-sm font-medium text-gray-500 mb-1">Tổng thu (VNĐ)</div>
+                    <div class="text-xl font-semibold text-gray-900">@ViewBag.TotalIncome.ToString("#,##0")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 my-4">
+        <!-- Hoạt động Line Chart -->
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="mb-4">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Thống kê hoạt động</h3>
+                <span class="text-sm font-medium text-gray-500">6 tháng gần nhất</span>
+            </div>
+            <div class="h-80">
+                <canvas id="activityChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Phân bố sinh viên Pie Chart -->
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="mb-4">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Phân bố sinh viên</h3>
+                <span class="text-sm font-medium text-gray-500">Theo khoa</span>
+            </div>
+            <div class="h-80">
+                <canvas id="studentDistributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Cấu hình chung cho Chart.js
+        Chart.defaults.font.family = 'Inter, sans-serif';
+        Chart.defaults.color = '#6B7280';
+        
+        // Biểu đồ hoạt động
+        const activityCtx = document.getElementById('activityChart');
+        new Chart(activityCtx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.ActivityMonths)),
+                datasets: [{
+                    label: 'Số hoạt động',
+                    data: @Html.Raw(Json.Serialize(ViewBag.ActivityCounts)),
+                    borderColor: '#3B82F6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointStyle: 'circle',
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    pointBackgroundColor: '#FFFFFF',
+                    pointBorderColor: '#3B82F6',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false,
+                            color: '#E5E7EB'
+                        },
+                        ticks: {
+                            padding: 10
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            padding: 10
+                        }
+                    }
+                }
+            }
+        });
+
+        // Biểu đồ phân bố sinh viên
+        const distributionCtx = document.getElementById('studentDistributionChart');
+        new Chart(distributionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.FacultyNames)),
+                datasets: [{
+                    data: @Html.Raw(Json.Serialize(ViewBag.FacultyStudentCounts)),
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)',   // Blue
+                        'rgba(16, 185, 129, 0.8)',   // Green
+                        'rgba(245, 158, 11, 0.8)',   // Yellow
+                        'rgba(239, 68, 68, 0.8)',    // Red
+                        'rgba(99, 102, 241, 0.8)',   // Indigo
+                        'rgba(139, 92, 246, 0.8)'    // Purple
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#FFFFFF'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            boxWidth: 12,
+                            boxHeight: 12,
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                cutout: '75%'
+            }
+        });
+    </script>
+}
