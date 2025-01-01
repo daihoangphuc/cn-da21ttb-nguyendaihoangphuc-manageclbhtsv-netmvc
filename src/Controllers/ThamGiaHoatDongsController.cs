@@ -1,4 +1,4 @@
-﻿using Manage_CLB_HTSV.Data;
+using Manage_CLB_HTSV.Data;
 using Manage_CLB_HTSV.Models;
 using Manage_CLB_HTSV.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
