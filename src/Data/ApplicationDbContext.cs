@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Manage_CLB_HTSV.Models;
@@ -21,6 +21,7 @@ namespace Manage_CLB_HTSV.Data
         public DbSet<DangKyHoatDong> DangKyHoatDong { get; set; }
         public DbSet<TinTuc> TinTuc { get; set; }
         public DbSet<ThamGiaHoatDong> ThamGiaHoatDong { get; set; }
+        public DbSet<TaiChinh> TaiChinh { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
