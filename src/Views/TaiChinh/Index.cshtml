@@ -1,0 +1,91 @@
+@model IEnumerable<Manage_CLB_HTSV.Models.TaiChinh>
+
+@{
+    if (User.IsInRole("Administrators"))
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+}
+ <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+<div class="container-fluid">
+    <h2 class="text-center mb-4 text-2xl font-bold">Quản Lý Tài Chính</h2>
+
+    <div class="row mb-4">
+        <div class="col">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Tạo Mới
+            </a>
+            <a asp-action="ThongKe" class="btn btn-info">
+                <i class="fas fa-chart-bar"></i> Thống Kê
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div class="p-6">
+        <div class="table-responsive overflow-x-auto">
+            <table class="min-w-full table-auto">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Người tạo</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">@Html.DisplayNameFor(model => model.MaSV)</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">@Html.DisplayNameFor(model => model.NgayGiaoDich)</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">@Html.DisplayNameFor(model => model.SoTien)</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">@Html.DisplayNameFor(model => model.LoaiGiaoDich)</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">@Html.DisplayNameFor(model => model.GhiChu)</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm text-gray-700">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="border-b border-gray-200">
+                            <td class="px-4 py-2">@Html.DisplayFor(modelItem => item.SinhVien.HoTen)</td>
+                            <td class="px-4 py-2">@Html.DisplayFor(modelItem => item.MaSV)</td>
+                            <td class="px-4 py-2">@item.NgayGiaoDich.ToString("dd/MM/yyyy")</td>
+                            <td class="px-4 py-2">@item.SoTien.ToString("#,##0") VNĐ</td>
+                            <td class="px-4 py-2">
+                                @if (item.LoaiGiaoDich == "Thu")
+                                {
+                                    <span class="inline-block px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Thu</span>
+                                }
+                                else
+                                {
+                                    <span class="inline-block px-3 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">Chi</span>
+                                }
+                            </td>
+                            <td class="px-4 py-2">@Html.DisplayFor(modelItem => item.GhiChu)</td>
+                            <td class="px-4 py-2">
+                                <div class="flex space-x-2">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="text-yellow-500">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="text-red-500">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('table').DataTable({
+                "order": [[2, "desc"]], // Sắp xếp theo ngày giao dịch
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Vietnamese.json"
+                }
+            });
+        });
+    </script>
+}
