@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Manage_CLB_HTSV.Data;
 
 namespace Manage_CLB_HTSV.Components
