@@ -26,6 +26,3 @@ Website này được xây dựng để hỗ trợ quản lý các hoạt độn
 - **Email**: nguyendaihoangphuc24@gmail.com
 - **Trường**: Đại học Trà Vinh
 - **Ngành**: Công nghệ thông tin
-
-## 📄 Giấy phép
-© 2024 Nguyễn Đại Hoàng Phúc. All rights reserved.
