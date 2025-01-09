@@ -1,6 +1,43 @@
-﻿﻿  <!-- ======= Hero Section ======= -->
-<section id="hero" class="hero-section-1 d-flex align-items-center" style="margin-top: -40px">
+﻿﻿
+@{
+ @model Manage_CLB_HTSV.Models.ViewModel.HomeViewModel
 
+}
+<!-- News and Activities Marquee Section -->
+<div style="margin-top: -20px">
+    <div class="container mx-auto">
+        <div class="flex items-center space-x-4">
+            <div class="flex-shrink-0">
+                <span class="text-lg font-semibold text-pink-500">
+                    <i class="fas fa-bullhorn mr-2"></i>Tin mới:
+                </span>
+            </div>
+            <div class="flex-1 overflow-hidden">
+                <div class="marquee-container relative">
+                    <div class="animate-marquee whitespace-nowrap">
+                        @foreach (var tin in Model.LatestNews)
+                        {
+                            <span class="inline-block mx-4 text-blue-600">
+                                <i class="fas fa-newspaper mr-1"></i>
+                                @tin.TieuDe
+                            </span>
+                        }
+                        @foreach (var hd in Model.UpcomingActivities)
+                        {
+                            <span class="inline-block mx-4 text-pink-600">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                @hd.TenHoatDong (@hd.ThoiGian.ToString("dd/MM/yyyy"))
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="hero-section-1 d-flex align-items-center" style="margin-top: -40px">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
@@ -17,9 +54,32 @@
             </div>
         </div>
     </div>
-
 </section><!-- End Hero -->
 
+
+<style>
+    .marquee-container {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+    }
+
+    .animate-marquee {
+        animation: marquee 45s linear infinite;
+        display: inline-block;
+    }
+
+    @@keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+
+    @@media (max-width: 640px) {
+        .animate-marquee {
+            animation-duration: 35s;
+        }
+    }
+</style>
 
 <div class="section-title" id="section2" style="margin-bottom: 0" data-aos="fade-up" data-aos-delay="200">
     <h2 class="gt" style="color: #38b7fd; font-size: 25px;">GIỚI THIỆU</h2>
@@ -183,7 +243,6 @@
 
     </div>
 </section><!-- End Contact Section -->
-
 <style>
   @@media only screen and (max-width: 600px) {
     iframe {
@@ -197,4 +256,3 @@
     }
 }
 </style>
-              
