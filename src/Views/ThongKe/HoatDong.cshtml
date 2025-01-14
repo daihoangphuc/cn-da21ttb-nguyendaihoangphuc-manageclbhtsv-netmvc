@@ -1,0 +1,164 @@
+@model IEnumerable<Manage_CLB_HTSV.Models.ViewModel.ThongKeHoatDongHocKyViewModel>
+
+@{
+    ViewData["Title"] = "Thống Kê Hoạt Động";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">@ViewData["Title"]</h2>
+        <a href="@Url.Action("XuatExcel", new { namHoc = ViewBag.SelectedNamHoc, hocKy = ViewBag.SelectedHocKy })" class="btn btn-success">
+            <i class="ti ti-file-export me-2"></i>Xuất Excel
+        </a>
+    </div>
+
+    <!-- Form lọc -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label">Năm học</label>
+                    <select name="namHoc" class="form-select">
+                        <option value="">Tất cả năm học</option>
+                        @foreach (var nam in ViewBag.NamHocList)
+                        {
+                            <option value="@nam" selected="@(ViewBag.SelectedNamHoc == nam)">@nam</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Học kỳ</label>
+                    <select name="hocKy" class="form-select">
+                        <option value="">Tất cả học kỳ</option>
+                        <option value="1" selected="@(ViewBag.SelectedHocKy == 1)">Học kỳ 1</option>
+                        <option value="2" selected="@(ViewBag.SelectedHocKy == 2)">Học kỳ 2</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="ti ti-filter me-2"></i>Lọc
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Thống kê theo học kỳ</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Năm học</th>
+                            <th>Học kỳ</th>
+                            <th>Số lượng hoạt động</th>
+                            <th>Số lượt tham gia</th>
+                            <th>Tỷ lệ tham gia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var tyLe = item.SoLuongHoatDong > 0 
+                                ? (double)item.SoLuotThamGia / item.SoLuongHoatDong 
+                                : 0;
+                            <tr>
+                                <td>@item.NamHoc</td>
+                                <td>@item.HocKy</td>
+                                <td>@item.SoLuongHoatDong</td>
+                                <td>@item.SoLuotThamGia</td>
+                                <td>@tyLe.ToString("P2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Biểu đồ số lượng hoạt động</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="hoatDongChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Biểu đồ số lượt tham gia</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="thamGiaChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dữ liệu chung
+        var labels = [@Html.Raw(string.Join(",", Model.Select(x => $"'Năm {x.NamHoc} - HK{x.HocKy}'")))];
+        var soLuongHoatDong = [@string.Join(",", Model.Select(x => x.SoLuongHoatDong))];
+        var soLuotThamGia = [@string.Join(",", Model.Select(x => x.SoLuotThamGia))];
+
+        // Biểu đồ số lượng hoạt động
+        var hoatDongCtx = document.getElementById('hoatDongChart').getContext('2d');
+        new Chart(hoatDongCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Số lượng hoạt động',
+                    data: soLuongHoatDong,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Biểu đồ số lượt tham gia
+        var thamGiaCtx = document.getElementById('thamGiaChart').getContext('2d');
+        new Chart(thamGiaCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Số lượt tham gia',
+                    data: soLuotThamGia,
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

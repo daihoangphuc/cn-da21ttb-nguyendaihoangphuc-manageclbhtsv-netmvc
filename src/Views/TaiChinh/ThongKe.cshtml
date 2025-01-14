@@ -84,54 +84,102 @@
                     <div class="inline-flex flex-shrink-0 justify-center items-center w-12 h-12 text-red-500 bg-red-100 rounded-lg mr-3">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="text-sm font-medium text-gray-500 mb-1">Tổng Chi</div>
-                        <div class="text-xl font-semibold text-gray-900">@Model.TongChi.ToString("#,##0") VNĐ</div>
-                    </div>
+                    </svg>
                 </div>
-            </div>
-
-            <!-- Số Dư Card -->
-            <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500">
-                <div class="flex items-center">
-                    <div class="inline-flex flex-shrink-0 justify-center items-center w-12 h-12 text-blue-500 bg-blue-100 rounded-lg mr-3">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="text-sm font-medium text-gray-500 mb-1">Số Dư</div>
-                        <div class="text-xl font-semibold text-gray-900">@Model.SoDu.ToString("#,##0") VNĐ</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tổng Giao Dịch Card -->
-            <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-purple-500">
-                <div class="flex items-center">
-                    <div class="inline-flex flex-shrink-0 justify-center items-center w-12 h-12 text-purple-500 bg-purple-100 rounded-lg mr-3">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="text-sm font-medium text-gray-500 mb-1">Tổng Giao Dịch</div>
-                        <div class="text-xl font-semibold text-gray-900">@Model.TongSoGiaoDich</div>
-                    </div>
+                <div>
+                    <div class="text-sm font-medium text-gray-500 mb-1">Tổng Chi</div>
+                    <div class="text-xl font-semibold text-gray-900">@Model.TongChi.ToString("#,##0") VNĐ</div>
                 </div>
             </div>
         </div>
 
-        <!-- Chart -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Biểu Đồ Thống Kê</h3>
-            <div class="relative" style="height: 400px;">
-                <canvas id="financialChart"></canvas>
+        <!-- Số Dư Card -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500">
+            <div class="flex items-center">
+                <div class="inline-flex flex-shrink-0 justify-center items-center w-12 h-12 text-blue-500 bg-blue-100 rounded-lg mr-3">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-sm font-medium text-gray-500 mb-1">Số Dư</div>
+                    <div class="text-xl font-semibold text-gray-900">@Model.SoDu.ToString("#,##0") VNĐ</div>
+                </div>
             </div>
+        </div>
+
+        <!-- Tổng Giao Dịch Card -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-purple-500">
+            <div class="flex items-center">
+                <div class="inline-flex flex-shrink-0 justify-center items-center w-12 h-12 text-purple-500 bg-purple-100 rounded-lg mr-3">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-sm font-medium text-gray-500 mb-1">Tổng Giao Dịch</div>
+                    <div class="text-xl font-semibold text-gray-900">@Model.TongSoGiaoDich</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold text-gray-800">Biểu Đồ Thống Kê</h3>
+            <form method="post" asp-action="ExportExcel" class="flex items-center">
+                <input type="hidden" name="loaiGiaoDich" value="@Model.LoaiGiaoDich" />
+                <input type="hidden" name="tuNgay" value="@Model.TuNgay?.ToString("yyyy-MM-dd")" />
+                <input type="hidden" name="denNgay" value="@Model.DenNgay?.ToString("yyyy-MM-dd")" />
+                <button type="submit" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                    <i class="fas fa-file-excel mr-2"></i>Xuất Excel
+                </button>
+            </form>
+        </div>
+        <div style="height: 400px; position: relative;">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Transaction List -->
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Danh Sách Giao Dịch</h3>
+        <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Ngày</th>
+                        <th scope="col" class="px-6 py-3">Loại</th>
+                        <th scope="col" class="px-6 py-3">Số Tiền</th>
+                        <th scope="col" class="px-6 py-3">Ghi Chú</th>
+                        <th scope="col" class="px-6 py-3">Sinh Viên</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.DanhSachGiaoDich)
+                    {
+                        <tr class="bg-white border-b hover:bg-gray-50">
+                            <td class="px-6 py-4">@item.NgayGiaoDich.ToString("dd/MM/yyyy")</td>
+                            <td class="px-6 py-4">
+                                @if (item.LoaiGiaoDich == "Thu")
+                                {
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Thu</span>
+                                }
+                                else
+                                {
+                                    <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Chi</span>
+                                }
+                            </td>
+                            <td class="px-6 py-4">@item.SoTien.ToString("#,##0") VNĐ</td>
+                            <td class="px-6 py-4">@item.GhiChu</td>
+                            <td class="px-6 py-4">@item.TenSinhVien</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -140,7 +188,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        var ctx = document.getElementById('financialChart').getContext('2d');
+        var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {

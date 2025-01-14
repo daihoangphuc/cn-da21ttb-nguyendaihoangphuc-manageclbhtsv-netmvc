@@ -1,0 +1,85 @@
+@model IEnumerable<Manage_CLB_HTSV.Models.ViewModel.ThongKeSinhVienViewModel>
+
+@{
+    ViewData["Title"] = "Thống Kê Sinh Viên";
+}
+
+<div class="container-fluid">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Top sinh viên tham gia hoạt động nhiều nhất</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã sinh viên</th>
+                            <th>Họ tên</th>
+                            <th>Số hoạt động tham gia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int stt = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@stt</td>
+                                    <td>@item.MaSV</td>
+                                    <td>@item.HoTen</td>
+                                    <td>@item.SoHoatDongThamGia</td>
+                                </tr>
+                                stt++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Biểu đồ thống kê</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="sinhVienChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('sinhVienChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(string.Join(",", Model.Select(x => $"'{x.HoTen}'")))],
+                datasets: [{
+                    label: 'Số hoạt động tham gia',
+                    data: [@string.Join(",", Model.Select(x => x.SoHoatDongThamGia))],
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

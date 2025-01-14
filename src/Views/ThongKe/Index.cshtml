@@ -1,0 +1,122 @@
+@model Manage_CLB_HTSV.Models.ViewModel.HoatDongThongKeViewModel
+
+@{
+    ViewData["Title"] = "Thống Kê Tổng Quan";
+}
+
+<div class="container-fluid">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+    <!-- Thống kê tổng quan -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Tổng số hoạt động</h5>
+                    <p class="card-text display-4">@Model.TongSoHoatDong</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Tổng số sinh viên</h5>
+                    <p class="card-text display-4">@Model.TongSoSinhVien</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Tổng lượt tham gia</h5>
+                    <p class="card-text display-4">@Model.TongSoLuotThamGia</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Hoạt động học kỳ này</h5>
+                    <p class="card-text display-4">@Model.HoatDongHocKyHienTai</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top hoạt động -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Top hoạt động tham gia nhiều nhất</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="topHoatDongChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Thống kê theo tháng</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="thongKeTheoThangChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Biểu đồ top hoạt động
+        var topHoatDongCtx = document.getElementById('topHoatDongChart').getContext('2d');
+        new Chart(topHoatDongCtx, {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(string.Join(",", Model.TopHoatDong.Select(x => $"'{x.TenHoatDong}'")))],
+                datasets: [{
+                    label: 'Số lượt tham gia',
+                    data: [@string.Join(",", Model.TopHoatDong.Select(x => x.SoLuotThamGia))],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Biểu đồ thống kê theo tháng
+        var thongKeTheoThangCtx = document.getElementById('thongKeTheoThangChart').getContext('2d');
+        new Chart(thongKeTheoThangCtx, {
+            type: 'line',
+            data: {
+                labels: [@string.Join(",", Model.ThongKeTheoThang.Select(x => x.Thang))],
+                datasets: [{
+                    label: 'Số hoạt động',
+                    data: [@string.Join(",", Model.ThongKeTheoThang.Select(x => x.SoHoatDong))],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}
