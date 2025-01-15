@@ -5,6 +5,7 @@ public class FaceRecognitionService
 {
     private readonly HttpClient _httpClient;
 
+
     public FaceRecognitionService(HttpClient httpClient)
     {
         _httpClient = httpClient;
