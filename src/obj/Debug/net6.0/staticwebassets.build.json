@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "bqroys3WepCfYryPELOftxOeLoDIQpdTtArtZDJZLFg=",
+  "Hash": "Na/5rKEphKvbsE29D17q8EQDZmwmbmJuL8IfSZ+5hGo=",
   "Source": "Manage_CLB_HTSV",
   "BasePath": "_content/Manage_CLB_HTSV",
   "Mode": "Default",
@@ -18160,6 +18160,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\qrcode\\110121182.png"
+    },
+    {
+      "Identity": "D:\\!Học Kỳ 7\\dacn\\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\\src\\wwwroot\\userimages\\.gitkeep",
+      "SourceId": "Manage_CLB_HTSV",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\!Học Kỳ 7\\dacn\\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\\src\\wwwroot\\",
+      "BasePath": "_content/Manage_CLB_HTSV",
+      "RelativePath": "userimages/.gitkeep",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\userimages\\.gitkeep"
     },
     {
       "Identity": "D:\\!Học Kỳ 7\\dacn\\cn-da21ttb-nguyendaihoangphuc-manageclbhtsv-netmvc\\src\\wwwroot\\userimages\\067a1d39-5f1f-4bb0-8911-30ec44118a32.jpg",

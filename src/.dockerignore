@@ -1,0 +1,115 @@
+# ==============================================
+# .dockerignore - Optimize Docker build context
+# ==============================================
+
+# Git and version control
+.git
+.gitignore
+.gitattributes
+
+# IDE and editor files
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+bin/
+obj/
+out/
+publish/
+*.dll
+*.pdb
+*.exe
+
+# Logs and temporary files
+logs/
+*.log
+*.tmp
+*.temp
+*.cache
+
+# Test results
+TestResults/
+test-results/
+coverage/
+*.trx
+
+# NuGet packages
+packages/
+*.nupkg
+
+# User secrets and sensitive data
+*.user
+*.suo
+*.userprefs
+appsettings.*.json
+!appsettings.json
+!appsettings.json.example
+connectionstrings.json
+
+# Certificates and security files
+*.pfx
+*.key
+*.crt
+*.pem
+*.p12
+*.cert
+Certificates/*
+!Certificates/README.md
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+
+# User uploaded content
+wwwroot/userimages/*
+!wwwroot/userimages/.gitkeep
+wwwroot/newsimages/*
+!wwwroot/newsimages/.gitkeep
+wwwroot/qrcode/*
+!wwwroot/qrcode/.gitkeep
+wwwroot/minhchunghd/*
+!wwwroot/minhchunghd/.gitkeep
+wwwroot/messages/*
+!wwwroot/messages/.gitkeep
+UsersImages/*
+!UsersImages/.gitkeep
+
+# Documentation and project files
+README.md
+*.md
+docs/
+mockups/
+progress-report/
+
+# Docker files
+Dockerfile*
+.dockerignore
+docker-compose*.yml
+
+# Environment files
+.env*
+
+# Node.js (if any)
+node_modules/
+npm-debug.log*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# Backup files
+*.bak
+*.backup
+
+# JetBrains Rider
+.idea/
+*.sln.iml 

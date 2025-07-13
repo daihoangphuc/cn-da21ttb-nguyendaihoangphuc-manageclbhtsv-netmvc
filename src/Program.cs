@@ -27,6 +27,11 @@ builder.Services.AddSingleton<Manage_CLB_HTSV.IEmailSender, EmailSender>();
 //Add signalr
 builder.Services.AddSignalR();
 
+// Add health checks
+builder.Services.AddHealthChecks()
+    .AddDbContext<ApplicationDbContext>()
+    .AddCheck("self", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy());
+
 //Set timeout cho phien dang nhap
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -125,6 +130,9 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
+    // Health check endpoint
+    endpoints.MapHealthChecks("/health");
+    
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}"
