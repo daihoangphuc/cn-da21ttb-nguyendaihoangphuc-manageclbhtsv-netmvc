@@ -4,9 +4,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 
-# Expose ports for internal container communication
+# Expose port for HTTP only (HTTPS via Cloudflare Tunnel)
 EXPOSE 80
-EXPOSE 443
 
 # Create non-root user for security
 RUN adduser --disabled-password --gecos '' appuser
@@ -38,7 +37,6 @@ FROM build AS publish
 # Declare ARG variables for build-time secrets injection
 ARG DB_PASSWORD2
 ARG SMTP_PASSWORD
-ARG PFX_PASSWORD
 ARG MICROSOFT_CLIENT_ID
 ARG MICROSOFT_CLIENT_SECRET
 
@@ -48,7 +46,6 @@ RUN cp appsettings.json appsettings.json.template
 # Replace secrets in appsettings.json safely
 RUN sed -i "s/\${secrets.DB_PASSWORD2}/${DB_PASSWORD2}/g" appsettings.json && \
     sed -i "s/\${secrets.SMTP_PASSWORD}/${SMTP_PASSWORD}/g" appsettings.json && \
-    sed -i "s/\${secrets.PFX_PASSWORD}/${PFX_PASSWORD}/g" appsettings.json && \
     sed -i "s/\${secrets.MICROSOFT_CLIENT_ID}/${MICROSOFT_CLIENT_ID}/g" appsettings.json && \
     sed -i "s/\${secrets.MICROSOFT_CLIENT_SECRET}/${MICROSOFT_CLIENT_SECRET}/g" appsettings.json
 
@@ -64,14 +61,8 @@ WORKDIR /app
 # Copy published application
 COPY --from=publish /app/publish .
 
-# Copy certificates if they exist (optional)
-COPY ["Certificates/certificate.crt", "Certificates/private.key", "./"]
-RUN if [ -f certificate.crt ] && [ -f private.key ]; then \
-        openssl pkcs12 -export -out certificate.pfx -inkey private.key -in certificate.crt -password pass:"" && \
-        chmod 600 private.key certificate.pfx && \
-        chmod 644 certificate.crt && \
-        chown appuser:appuser certificate.* ; \
-    fi
+# Note: HTTPS will be handled by Cloudflare Tunnel
+# No certificates needed in container
 
 # Set ownership
 RUN chown -R appuser:appuser /app
@@ -84,7 +75,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
     CMD curl -f http://localhost:80/health || exit 1
 
 # Set environment variables
-ENV ASPNETCORE_URLS=http://+:80;https://+:443
+ENV ASPNETCORE_URLS=http://+:80
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 ENTRYPOINT ["dotnet", "Manage_CLB_HTSV.dll"]

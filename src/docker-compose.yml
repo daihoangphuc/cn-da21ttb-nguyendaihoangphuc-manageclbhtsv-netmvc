@@ -8,13 +8,11 @@ services:
       args:
         - DB_PASSWORD2=${DB_PASSWORD2:-defaultpassword}
         - SMTP_PASSWORD=${SMTP_PASSWORD:-defaultsmtp}
-        - PFX_PASSWORD=${PFX_PASSWORD:-}
         - MICROSOFT_CLIENT_ID=${MICROSOFT_CLIENT_ID:-}
         - MICROSOFT_CLIENT_SECRET=${MICROSOFT_CLIENT_SECRET:-}
     container_name: webapp_htsv_dev
     ports:
       - "80:80"
-      - "443:443"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:

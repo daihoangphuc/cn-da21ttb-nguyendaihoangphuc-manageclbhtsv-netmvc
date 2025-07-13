@@ -11,8 +11,9 @@ Hệ thống quản lý câu lạc bộ học tập sinh viên được containe
 - **Container**: Docker
 - **CI/CD**: GitHub Actions
 - **Ports**: 
-  - **Local Development**: 80 (HTTP), 443 (HTTPS)
-  - **Production**: 7516 (HTTP), 7517 (HTTPS)
+  - **Local Development**: 80 (HTTP only)
+  - **Production**: 7516 (HTTP only)
+  - **HTTPS**: Handled by Cloudflare Tunnel (external to container)
 
 ## 🔧 Quick Start
 
@@ -44,25 +45,27 @@ docker-compose up -d
 
 4. **Access application**
 - HTTP: http://localhost
-- HTTPS: https://localhost
 - Health Check: http://localhost/health
+- HTTPS: Will be available via Cloudflare Tunnel after setup
 
 ### Production Deployment
 
 Production deployment được tự động hóa qua GitHub Actions khi push vào branch `main`.
 
 **📌 Lưu ý về Port Configuration:**
-- **Local Development**: Chạy trên port 80/443 (tiêu chuẩn)
-- **Production Host**: Chạy trên port 7516/7517 (custom)
+- **Local Development**: Chạy trên port 80 (HTTP only)
+- **Production Host**: Chạy trên port 7516 (HTTP only)
+- **HTTPS**: Sẽ được handle bởi Cloudflare Tunnel
 
 ```bash
 # Local: 
 http://localhost         # port 80
-https://localhost        # port 443
 
 # Production:
-http://your-host:7516    # custom port cho production
-https://your-host:7517   # custom port cho production
+http://your-host:7516    # HTTP cho production
+
+# HTTPS sẽ được Cloudflare Tunnel handle:
+https://your-domain.com  # via Cloudflare Tunnel
 ```
 
 ## 🚀 CI/CD Pipeline
