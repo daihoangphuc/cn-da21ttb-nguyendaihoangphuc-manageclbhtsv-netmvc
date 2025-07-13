@@ -20,11 +20,13 @@ namespace Manage_CLB_HTSV.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -132,7 +134,16 @@ namespace Manage_CLB_HTSV.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không đúng.");
+                    // Kiểm tra xem user có tồn tại không
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    if (user != null && !await _userManager.IsEmailConfirmedAsync(user))
+                    {
+                        ModelState.AddModelError(string.Empty, "Tài khoản chưa được xác nhận email. Vui lòng kiểm tra email và xác nhận tài khoản.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không đúng.");
+                    }
                     return Page();
                 }
             }

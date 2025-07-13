@@ -1,4 +1,4 @@
-﻿﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManagers
 
@@ -94,13 +94,6 @@
                         <li class="avt ml-2">
                             @await Component.InvokeAsync("Avatar")
                         </li>
-                        if (User.IsInRole("Administrators"))
-                        {
-                            <form class="form-inline d-flex" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                <button type="submit" style="margin-left: 20px; padding-top: 8px; font-size: 20px;border: none" class="fa-solid fa-right-from-bracket bg-transparent" title="Đăng xuất"></button>
-                                @*  <button type="submit" class="nav-link scrollto" style="padding-left: 10px">Logout</button> *@
-                            </form>
-                        }
                     }
                     else
                     {

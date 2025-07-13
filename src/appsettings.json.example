@@ -1,0 +1,29 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=YOUR_SERVER;Database=YOUR_DATABASE;User Id=YOUR_USER;Password=YOUR_PASSWORD;MultipleActiveResultSets=true"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "EmailSettings": {
+    "MailServer": "smtp.gmail.com",
+    "MailPort": 587,
+    "Sender": "your-email@gmail.com",
+    "Password": "your-app-password",
+    "EnableSSL": true
+  },
+  "Authentication": {
+    "Microsoft": {
+      "ClientId": "your-microsoft-client-id",
+      "ClientSecret": "your-microsoft-client-secret"
+    }
+  },
+  "AdminSettings": {
+    "Email": "admin@example.com",
+    "Password": "YourSecurePassword123!"
+  }
+} 

@@ -16,7 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
@@ -88,14 +88,14 @@ builder.Services.AddAuthentication()
         options.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"];
     });
 
-// Thêm cấu hình Kestrel từ appsettings.json
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ConfigureHttpsDefaults(listenOptions =>
-    {
-        listenOptions.AllowAnyClientCertificate();
-    });
-});
+// // Thêm cấu hình Kestrel từ appsettings.json
+// builder.WebHost.ConfigureKestrel(serverOptions =>
+// {
+//     serverOptions.ConfigureHttpsDefaults(listenOptions =>
+//     {
+//         listenOptions.AllowAnyClientCertificate();
+//     });
+// });
 
 var app = builder.Build();
 
@@ -112,7 +112,7 @@ else
     app.UseHsts();
 }
 app.UseExceptionHandler("/Home/Error");
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Temporary disable HTTPS redirection
 app.UseStaticFiles();
 
 app.UseCookiePolicy();
@@ -151,5 +151,57 @@ app.UseEndpoints(endpoints =>
 });
 
 app.MapRazorPages();
+
+// Tạo roles và admin user mặc định
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        
+        // Tạo roles nếu chưa tồn tại
+        string[] roleNames = { "Administrators", "Users" };
+        foreach (var roleName in roleNames)
+        {
+            if (!await roleManager.RoleExistsAsync(roleName))
+            {
+                await roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+        }
+        
+        // Tạo tài khoản admin mặc định từ environment variables hoặc appsettings
+        var configuration = services.GetRequiredService<IConfiguration>();
+        var adminEmail = configuration["AdminSettings:Email"] ?? Environment.GetEnvironmentVariable("ADMIN_EMAIL");
+        var adminPassword = configuration["AdminSettings:Password"] ?? Environment.GetEnvironmentVariable("ADMIN_PASSWORD");
+        
+        // Chỉ tạo admin nếu có cấu hình
+        if (!string.IsNullOrEmpty(adminEmail) && !string.IsNullOrEmpty(adminPassword))
+        {
+            var adminUser = await userManager.FindByEmailAsync(adminEmail);
+            if (adminUser == null)
+            {
+                adminUser = new IdentityUser
+                {
+                    UserName = adminEmail,
+                    Email = adminEmail,
+                    EmailConfirmed = true
+                };
+                
+                var result = await userManager.CreateAsync(adminUser, adminPassword);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(adminUser, "Administrators");
+                }
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        // Log lỗi nếu cần
+        Console.WriteLine($"Error creating default admin: {ex.Message}");
+    }
+}
 
 app.Run();
