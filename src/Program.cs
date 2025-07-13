@@ -29,7 +29,7 @@ builder.Services.AddSignalR();
 
 // Add health checks
 builder.Services.AddHealthChecks()
-    .AddDbContext<ApplicationDbContext>()
+    .AddDbContextCheck<ApplicationDbContext>()
     .AddCheck("self", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy());
 
 //Set timeout cho phien dang nhap
