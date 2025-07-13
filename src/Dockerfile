@@ -40,17 +40,14 @@ ARG SMTP_PASSWORD
 ARG MICROSOFT_CLIENT_ID
 ARG MICROSOFT_CLIENT_SECRET
 
-# Create a temporary appsettings for publish
-RUN cp appsettings.json appsettings.json.template
-
-# Replace secrets in appsettings.json safely
+# Replace secrets in appsettings.json safely (work on the source)
 RUN sed -i "s/\${secrets.DB_PASSWORD2}/${DB_PASSWORD2}/g" appsettings.json && \
     sed -i "s/\${secrets.SMTP_PASSWORD}/${SMTP_PASSWORD}/g" appsettings.json && \
     sed -i "s/\${secrets.MICROSOFT_CLIENT_ID}/${MICROSOFT_CLIENT_ID}/g" appsettings.json && \
     sed -i "s/\${secrets.MICROSOFT_CLIENT_SECRET}/${MICROSOFT_CLIENT_SECRET}/g" appsettings.json
 
-# Publish application
-RUN dotnet publish "Manage_CLB_HTSV.csproj" -c Release -o /app/publish --no-restore --no-build
+# Publish application (will use existing build artifacts)
+RUN dotnet publish "Manage_CLB_HTSV.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # ==============================================
 # Stage 4: Final runtime image
