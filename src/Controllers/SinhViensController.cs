@@ -43,7 +43,14 @@ namespace Manage_CLB_HTSV.Controllers
             PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
             byte[] qrCodeBytes = qrCode.GetGraphic(20);
 
-            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "qrcode", fileName); // Đường dẫn lưu file
+            var qrCodeDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "qrcode");
+            var filePath = Path.Combine(qrCodeDirectory, fileName); // Đường dẫn lưu file
+
+            // Tạo thư mục nếu không tồn tại
+            if (!Directory.Exists(qrCodeDirectory))
+            {
+                Directory.CreateDirectory(qrCodeDirectory);
+            }
 
             using (var image = Image.Load(qrCodeBytes))
             {
@@ -184,7 +191,15 @@ namespace Manage_CLB_HTSV.Controllers
             if (newImage != null && newImage.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(newImage.FileName);
-                var uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "userimages", fileName);
+                var userImagesDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "userimages");
+                var uploadPath = Path.Combine(userImagesDirectory, fileName);
+                
+                // Tạo thư mục nếu không tồn tại
+                if (!Directory.Exists(userImagesDirectory))
+                {
+                    Directory.CreateDirectory(userImagesDirectory);
+                }
+                
                 using (var stream = new FileStream(uploadPath, FileMode.Create))
                 {
                     await newImage.CopyToAsync(stream);
@@ -376,7 +391,15 @@ namespace Manage_CLB_HTSV.Controllers
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(HinhAnh.FileName);
 
                     // Lưu file vào vị trí chỉ định (thay thế bằng logic của bạn)
-                    var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "userimages", fileName);
+                    var userImagesDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "userimages");
+                    var filePath = Path.Combine(userImagesDirectory, fileName);
+                    
+                    // Tạo thư mục nếu không tồn tại
+                    if (!Directory.Exists(userImagesDirectory))
+                    {
+                        Directory.CreateDirectory(userImagesDirectory);
+                    }
+                    
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await HinhAnh.CopyToAsync(stream);
@@ -454,7 +477,15 @@ namespace Manage_CLB_HTSV.Controllers
                     }
 
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(HinhAnh.FileName);
-                    var uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "userimages", fileName);
+                    var userImagesDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "userimages");
+                    var uploadPath = Path.Combine(userImagesDirectory, fileName);
+                    
+                    // Tạo thư mục nếu không tồn tại
+                    if (!Directory.Exists(userImagesDirectory))
+                    {
+                        Directory.CreateDirectory(userImagesDirectory);
+                    }
+                    
                     using (var stream = new FileStream(uploadPath, FileMode.Create))
                     {
                         await HinhAnh.CopyToAsync(stream);

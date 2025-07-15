@@ -58,6 +58,13 @@ WORKDIR /app
 # Copy published application
 COPY --from=publish /app/publish .
 
+# Create required directories for file uploads
+RUN mkdir -p /app/wwwroot/qrcode && \
+    mkdir -p /app/wwwroot/userimages && \
+    mkdir -p /app/wwwroot/newsimages && \
+    mkdir -p /app/wwwroot/minhchunghd && \
+    mkdir -p /app/wwwroot/messages
+
 # Note: HTTPS will be handled by Cloudflare Tunnel
 # No certificates needed in container
 

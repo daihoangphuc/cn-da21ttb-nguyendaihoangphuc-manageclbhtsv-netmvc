@@ -92,7 +92,15 @@ namespace Manage_CLB_HTSV.Controllers
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(HinhAnh.FileName);
 
                     // Lưu file vào vị trí chỉ định
-                    var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "newsimages", fileName);
+                    var newsImagesDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "newsimages");
+                    var filePath = Path.Combine(newsImagesDirectory, fileName);
+                    
+                    // Tạo thư mục nếu không tồn tại
+                    if (!Directory.Exists(newsImagesDirectory))
+                    {
+                        Directory.CreateDirectory(newsImagesDirectory);
+                    }
+                    
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await HinhAnh.CopyToAsync(stream);
@@ -147,7 +155,15 @@ namespace Manage_CLB_HTSV.Controllers
                     if (HinhAnh != null && HinhAnh.Length > 0)
                     {
                         var fileName = Guid.NewGuid().ToString() + Path.GetExtension(HinhAnh.FileName);
-                        var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "newsimages", fileName);
+                        var newsImagesDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "newsimages");
+                        var filePath = Path.Combine(newsImagesDirectory, fileName);
+                        
+                        // Tạo thư mục nếu không tồn tại
+                        if (!Directory.Exists(newsImagesDirectory))
+                        {
+                            Directory.CreateDirectory(newsImagesDirectory);
+                        }
+                        
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             await HinhAnh.CopyToAsync(stream);
